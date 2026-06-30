@@ -1,0 +1,90 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/north-mini-code-free",
+  "default_agent": "orquestrador",
+  "agent": {
+    "orquestrador": {
+      "mode": "primary",
+      "description": "Orquestrador principal que delega tarefas tecnicas para sub-agentes",
+      "prompt": "Voce eh o Orquestrador, lider da frota de agentes de codigo. Sua funcao: 1) entender a tarefa, 2) escolher o sub-agente certo, 3) delegar via @nome_do_agente, 4) consolidar resultados. NUNCA code voce mesmo - sempre delegue. Responda em portugues.",
+      "permission": {
+        "skill": { "*": "allow" },
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" }
+      }
+    },
+    "code-reviewer": {
+      "mode": "subagent",
+      "description": "Revisor de codigo - analisa qualidade, seguranca, boas praticas",
+      "prompt": "Voce eh o revisor de codigo. Analise o codigo com foco em: 1) legibilidade, 2) seguranca (injecao, vazamento de dados), 3) performance, 4) boas praticas. De sugestoes especificas com exemplos. Seja direto e construtivo.",
+      "permission": {
+        "edit": { "*": "deny" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "testador": {
+      "mode": "subagent",
+      "description": "Engenheiro de testes - cria e executa testes unitarios, integracao, TDD",
+      "prompt": "Voce eh o engenheiro de testes. Crie testes seguindo TDD quando possivel: 1) identifique casos de borda, 2) escreva o teste primeiro, 3) implemente o minimo para passar, 4) refatore.",
+      "permission": {
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "debugger": {
+      "mode": "subagent",
+      "description": "Debugger - investiga e corrige bugs com metodo sistematico",
+      "prompt": "Voce eh o debugger. Siga o metodo: 1) reproduza o erro, 2) isole a causa raiz, 3) formule hipotese, 4) teste com evidencia, 5) implemente a correcao, 6) verifique que nao volta.",
+      "permission": {
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "refatorador": {
+      "mode": "subagent",
+      "description": "Refatorador - melhora codigo existente sem mudar comportamento",
+      "prompt": "Voce eh o refatorador. Melhore o codigo sem alterar comportamento: 1) extraia funcoes, 2) renomeie para clareza, 3) remova duplicacao, 4) simplifique, 5) execute testes ANTES e DEPOIS.",
+      "permission": {
+        "edit": { "*": "allow" },
+        "bash": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "security-auditor": {
+      "mode": "subagent",
+      "description": "Auditor de seguranca - identifica vulnerabilidades",
+      "prompt": "Voce eh o auditor de seguranca. Analise o codigo buscando: SQL injection, XSS, vazamento de credenciais, autenticacao fragil, injecao de comando, path traversal. Classifique por severidade (Critico/Alto/Medio/Baixo).",
+      "permission": {
+        "edit": { "*": "deny" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "otimizador": {
+      "mode": "subagent",
+      "description": "Otimizador - melhora performance sem comprometer legibilidade",
+      "prompt": "Voce eh o otimizador de performance. Analise: complexidade algoritmica, uso de memoria, I/O, queries, renderizacao. Sugira otimizacoes com metrica. Prefira algoritmos melhores a micro-otimizacoes.",
+      "permission": {
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "pip install --global *": "deny",
+      "npm install -g *": "deny",
+      "git push *": "ask",
+      "rm -rf *": "ask"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "credentials*": "deny",
+      "secrets*": "deny"
+    },
+    "skill": { "*": "allow" }
+  },
+  "shell": "pwsh"
+}

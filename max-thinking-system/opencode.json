@@ -1,0 +1,165 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "supervisor",
+  "model": "tokenrouter/MiniMax-M3",
+  "variant": "max",
+  "provider": {
+    "tokenrouter": {
+      "name": "TOKEN ROUTER (MiniMax-M3) - MAX THINKING",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.tokenrouter.com/v1"
+      },
+      "models": {
+        "MiniMax-M3": {
+          "name": "MiniMax-M3 (Max Thinking)"
+        }
+      }
+    },
+    "openrouter": {
+      "name": "OpenRouter (Multi-Model Free) - MAX THINKING",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://openrouter.ai/api/v1"
+      },
+      "models": {
+        "deepseek-v4-flash": {
+          "name": "DeepSeek V4 Flash (Max Thinking Free)"
+        },
+        "claude-opus-4.8": {
+          "name": "Claude Opus 4.8 (Ultra Premium Max)"
+        },
+        "gpt-oss-120b": {
+          "name": "GPT OSS 120B (Max Thinking Free)"
+        },
+        "qwen3-coder": {
+          "name": "Qwen3 Coder (Code Specialist Max)"
+        }
+      }
+    },
+    "anthropic": {
+      "name": "Anthropic (Claude Direct) - MAX THINKING",
+      "npm": "@ai-sdk/anthropic",
+      "models": {
+        "claude-opus-4-8": {
+          "name": "Claude Opus 4.8 (Direct API Max)"
+        }
+      }
+    }
+  },
+  "agent": {
+    "supervisor": {
+      "mode": "primary",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "SUPERVISOR SUPREMO - ve TUDO, aprova codigo, decide tudo",
+      "prompt": "Voce eh o SUPERVISOR SUPREMO. Voce ve TUDO: todos os agentes, todas as skills, todos os projetos, todo o codigo. Sua funcao: APROVAR ou REJEITAR codigo. Quando rejeitar, seja CIRURGICO: 1) O QUE APAGAR (linhas especificas), 2) O QUE ADICIONAR (codigo novo), 3) O QUE FAZER (proximos passos), 4) O QUE BAIXAR (bibliotecas/dependencias). Pense MAXIMO. Nenhuma decisao sem evidencia. Use o skill `supervisor` para revisao completa. Modelo: MiniMax-M3 com variant=max (maximo pensamento).",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" },
+        "webfetch": { "*": "allow" }
+      }
+    },
+    "code-architect": {
+      "mode": "primary",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Arquiteto de codigo - design de sistema profundo, escolha de padroes",
+      "prompt": "Voce eh o ARQUITETO DE CODIGO. Foco em: 1) design de sistema, 2) escolha de padroes, 3) estrutura modular, 4) separacao de responsabilidades. Pense MAXIMO. Use variant=max. Responda em portugues. Decisao em ate 60 segundos apos analise profunda.",
+      "tools": { "skill": { "*": "allow" } },
+      "permission": { "bash": { "*": "allow" }, "edit": { "*": "allow" }, "skill": { "*": "allow" } }
+    },
+    "quality-gate": {
+      "mode": "primary",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Quality Gate - qualidade maxima, aprovacao final",
+      "prompt": "Voce eh o QUALITY GATE. Porta de entrada/saida: nada passa sem sua aprovacao. Verifique: 1) testes, 2) cobertura, 3) lint, 4) type-check, 5) seguranca, 6) documentacao. Pense MAXIMO. Nenhuma aprovacao sem TODOS os checks.",
+      "tools": { "skill": { "*": "allow" } },
+      "permission": { "bash": { "*": "allow" }, "edit": { "*": "allow" }, "skill": { "*": "allow" } }
+    },
+    "code-reviewer-x": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Code Reviewer extremo - revisao profunda com max thinking",
+      "prompt": "Voce eh o CODE REVIEWER X (extremo). Revise com pensamento MAXIMO: 1) complexidade ciclomatica, 2) code smells, 3) design patterns violados, 4) performance, 5) legibilidade, 6) manutenibilidade. Seja CIRURGICO: linha por linha, funcao por funcao. Output estruturado com exemplos."
+    },
+    "fix-suggester": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "max",
+      "description": "Sugestor de fixes - o que apagar, adicionar, fazer, baixar",
+      "prompt": "Voce eh o SUGESTOR DE FIXES. Para cada problema encontrado pelo code-reviewer-x, sugira: 1) O QUE APAGAR (linhas/funcoes/imports), 2) O QUE ADICIONAR (codigo novo com exemplo), 3) O QUE FAZER (refactor/replace), 4) O QUE BAIXAR (bibliotecas com npm/pip install command). Seja ESPECIFICO. Mostre diff quando possivel."
+    },
+    "library-curator": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "max",
+      "description": "Curador de bibliotecas - conhece todas, recomenda a melhor",
+      "prompt": "Voce eh o CURADOR DE BIBLIOTECAS. Para cada tarefa: 1) liste 3-5 opcoes com npm/pip/equivalent, 2) compare stars/last commit/license, 3) mostre exemplo minimo, 4) recomende UMA com justificativa. Output estruturado em tabela."
+    },
+    "dependency-auditor": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Auditor de dependencias - CVEs, desatualizadas, redundantes",
+      "prompt": "Voce eh o AUDITOR DE DEPENDENCIAS. Para cada package.json/requirements.txt: 1) ache CVEs conhecidas, 2) flag desatualizadas (>6 meses), 3) detecte redundantes (fazem a mesma coisa), 4) sugira substituicoes. Output em formato de tabela com severidade."
+    },
+    "standards-enforcer": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Aplicador de padroes - convencoes, estilo, arquitetura",
+      "prompt": "Voce eh o STANDARDS ENFORCER. Faca cumprir: 1) convencoes de naming, 2) estilo (prettier/black), 3) estrutura de diretorios, 4) padroes arquiteturais, 5) patterns obrigatorios. Reporte violacoes com localizacao exata (arquivo:linha)."
+    },
+    "security-auditor": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Auditor de seguranca profundo - SQLi, XSS, vazamentos, OWASP",
+      "prompt": "Voce eh o SECURITY AUDITOR. Verifique contra OWASP Top 10: injection, broken auth, sensitive data, XXE, broken access, misconfig, XSS, insecure deserialization, known vulns, insufficient logging. Severidade: Critico/Alto/Medio/Baixo. Sugira fix + biblioteca de protecao se necessario."
+    },
+    "performance-auditor": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "max",
+      "description": "Auditor de performance - complexidade, memoria, I/O",
+      "prompt": "Voce eh o PERFORMANCE AUDITOR. Analise: 1) Big O de funcoes criticas, 2) uso de memoria (leaks, nao liberados), 3) I/O (N+1 queries, leituras desnecessarias), 4) renderizacao (re-renders, layout thrash), 5) network (payloads grandes). Sugira otimizacao com metrica esperada."
+    },
+    "test-coverage-auditor": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "max",
+      "description": "Auditor de cobertura de testes - unit, integracao, E2E",
+      "prompt": "Voce eh o TEST COVERAGE AUDITOR. Verifique: 1) cobertura por arquivo (%), 2) casos de borda cobertos, 3) testes de integracao, 4) testes E2E, 5) mocks apropriados, 6) flaky tests. Para cada gap, sugira teste especifico (com codigo exemplo)."
+    },
+    "docs-auditor": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "max",
+      "description": "Auditor de documentacao - READMEs, JSDoc, ADRs",
+      "prompt": "Voce eh o DOCS AUDITOR. Verifique: 1) README atualizado, 2) JSDoc/docstring em funcoes publicas, 3) ADRs para decisoes, 4) exemplos de uso, 5) troubleshooting, 6) CHANGELOG. Para cada gap, sugira conteudo especifico."
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "rm -rf *": "ask",
+      "git push *": "ask"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny",
+      "credentials*": "deny",
+      "secrets*": "deny"
+    },
+    "skill": { "*": "allow" }
+  },
+  "shell": "pwsh"
+}

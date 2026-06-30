@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "enabled": false,
+  "name": "aurora-quality-gate-manual",
+  "description": "Revisao manual opcional de interface e verificacoes tecnicas antes de uma entrega.",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Execute uma revisao final da tarefa atual: verifique mudancas, comandos de teste disponiveis, responsividade e acessibilidade basica da interface quando aplicavel. Nao publique nada e nao altere arquivos sem explicar a correcao necessaria."
+  }
+}

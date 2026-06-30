@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Business & Tax Brasil — Skill Library</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e334d;
+      --accent: #4f6ef7;
+      --accent2: #7c3aed;
+      --accent3: #059669;
+      --accent4: #d97706;
+      --accent5: #dc2626;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --tag-bg: #1e2a3a;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      background: linear-gradient(135deg, #0f1117 0%, #1a1035 50%, #0f1117 100%);
+      border-bottom: 1px solid var(--border);
+      padding: 56px 24px 48px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -80px; left: 50%;
+      transform: translateX(-50%);
+      width: 600px; height: 300px;
+      background: radial-gradient(ellipse, rgba(79,110,247,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(79,110,247,0.15);
+      border: 1px solid rgba(79,110,247,0.4);
+      color: #818cf8;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 4px 14px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-size: clamp(28px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      background: linear-gradient(135deg, #e2e8f0 30%, #818cf8 70%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 16px;
+    }
+    .hero-sub {
+      font-size: 17px;
+      color: var(--muted);
+      max-width: 620px;
+      margin: 0 auto 32px;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .stat {
+      text-align: center;
+    }
+    .stat-num {
+      font-size: 28px;
+      font-weight: 800;
+      color: #818cf8;
+      display: block;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    /* ── LAYOUT ── */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 48px 0; }
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .section-heading {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--text);
+      margin-bottom: 32px;
+      letter-spacing: -0.5px;
+    }
+
+    /* ── COMO FUNCIONA ── */
+    .flow-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+    .flow-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 20px;
+      position: relative;
+      transition: border-color 0.2s;
+    }
+    .flow-card:hover { border-color: var(--accent); }
+    .flow-num {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: rgba(79,110,247,0.15);
+      border: 1px solid rgba(79,110,247,0.4);
+      color: #818cf8;
+      font-weight: 800;
+      font-size: 14px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+    }
+    .flow-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .flow-card p { font-size: 13px; color: var(--muted); }
+
+    /* ── CARDS DE SKILL ── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+    }
+    .skill-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      transition: all 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .skill-card.group-strategy::before { background: linear-gradient(90deg, #4f6ef7, #7c3aed); }
+    .skill-card.group-tax-core::before { background: linear-gradient(90deg, #059669, #0891b2); }
+    .skill-card.group-tax-ext::before  { background: linear-gradient(90deg, #d97706, #dc2626); }
+    .skill-card.group-tool::before     { background: linear-gradient(90deg, #7c3aed, #ec4899); }
+    .skill-card:hover { border-color: rgba(79,110,247,0.5); transform: translateY(-2px); }
+
+    .skill-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .skill-icon {
+      width: 42px; height: 42px;
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      flex-shrink: 0;
+    }
+    .icon-strategy { background: rgba(79,110,247,0.12); }
+    .icon-tax      { background: rgba(5,150,105,0.12); }
+    .icon-reform   { background: rgba(217,119,6,0.12); }
+    .icon-tool     { background: rgba(124,58,237,0.12); }
+
+    .skill-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text);
+      font-family: 'Courier New', monospace;
+      word-break: break-all;
+    }
+    .skill-size {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .skill-desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 14px;
+      line-height: 1.5;
+    }
+    .skill-topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .topic-tag {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+    }
+    .skill-links {
+      display: flex;
+      gap: 8px;
+    }
+    .skill-link {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-decoration: none;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .link-gh {
+      background: rgba(79,110,247,0.1);
+      border: 1px solid rgba(79,110,247,0.3);
+      color: #818cf8;
+    }
+    .link-drive {
+      background: rgba(5,150,105,0.1);
+      border: 1px solid rgba(5,150,105,0.3);
+      color: #34d399;
+    }
+
+    /* ── GRUPO LABELS ── */
+    .group-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 40px 0 16px;
+    }
+    .group-label-text {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      white-space: nowrap;
+    }
+    .group-label-line {
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+    .gl-strategy { color: #818cf8; }
+    .gl-tax      { color: #34d399; }
+    .gl-ext      { color: #fbbf24; }
+    .gl-tool     { color: #c084fc; }
+
+    /* ── MAPA DE USO ── */
+    .use-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .use-table th {
+      text-align: left;
+      padding: 10px 16px;
+      background: var(--surface2);
+      color: var(--muted);
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 1px solid var(--border);
+    }
+    .use-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    .use-table tr:last-child td { border-bottom: none; }
+    .use-table tr:hover td { background: rgba(79,110,247,0.04); }
+    .situation { color: var(--text); font-weight: 500; }
+    .skills-needed { color: var(--muted); }
+    .skills-needed code {
+      background: var(--tag-bg);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1px 5px;
+      font-size: 11px;
+      color: #a5b4fc;
+      font-family: 'Courier New', monospace;
+    }
+    .table-wrap {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    /* ── ARQUITETURA ── */
+    .arch-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      color: var(--muted);
+      overflow-x: auto;
+      line-height: 1.8;
+    }
+    .arch-diagram .hl-blue  { color: #818cf8; }
+    .arch-diagram .hl-green { color: #34d399; }
+    .arch-diagram .hl-amber { color: #fbbf24; }
+    .arch-diagram .hl-purple{ color: #c084fc; }
+    .arch-diagram .hl-pink  { color: #f472b6; }
+
+    /* ── PROXIMOS PASSOS ── */
+    .next-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .next-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px 20px;
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .next-icon {
+      font-size: 22px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .next-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+    .next-card p  { font-size: 12px; color: var(--muted); }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    footer a { color: #818cf8; text-decoration: none; }
+    footer a:hover { text-decoration: underline; }
+
+    /* ── ALERT BOX ── */
+    .alert {
+      background: rgba(217,119,6,0.08);
+      border: 1px solid rgba(217,119,6,0.3);
+      border-radius: 10px;
+      padding: 16px 20px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      margin-bottom: 32px;
+      font-size: 13px;
+    }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+    .alert-text { color: #fcd34d; }
+    .alert-text strong { color: #fbbf24; }
+
+    /* ── DIVIDER ── */
+    .divider { height: 1px; background: var(--border); margin: 48px 0; }
+
+    @media (max-width: 640px) {
+      .hero-stats { gap: 20px; }
+      .skills-grid { grid-template-columns: 1fr; }
+      .flow-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="container">
+    <div class="hero-badge">Skill Library v1.0 · 2026-05-17</div>
+    <h1>Business &amp; Tax Brasil</h1>
+    <p class="hero-sub">
+      Biblioteca de conhecimento estruturado para analise empresarial, validacao de negocios
+      e planejamento tributario completo no mercado brasileiro.
+    </p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">11</span><span class="stat-label">Arquivos</span></div>
+      <div class="stat"><span class="stat-num">~213 KB</span><span class="stat-label">Conteudo</span></div>
+      <div class="stat"><span class="stat-num">~4.900</span><span class="stat-label">Linhas</span></div>
+      <div class="stat"><span class="stat-num">200+</span><span class="stat-label">CNAEs</span></div>
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Regimes Tribut.</span></div>
+      <div class="stat"><span class="stat-num">2026–2033</span><span class="stat-label">Horizonte Reforma</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- COMO FUNCIONA -->
+  <div class="section">
+    <p class="section-title">Conceito</p>
+    <h2 class="section-heading">Como este sistema funciona</h2>
+
+    <div class="alert">
+      <span class="alert-icon">⚡</span>
+      <div class="alert-text">
+        <strong>Skills sao modulos de conhecimento</strong> — cada arquivo .md e um bloco reutilizavel que pode ser
+        carregado em qualquer chat especializado para dar ao assistente IA contexto profundo e atualizado.
+        O script .py e executavel diretamente no terminal.
+      </div>
+    </div>
+
+    <div class="flow-grid">
+      <div class="flow-card">
+        <div class="flow-num">1</div>
+        <h3>Skill como contexto</h3>
+        <p>Cada arquivo .md contem conhecimento estruturado que e carregado no contexto do chat IA. Em vez de o assistente improvisar, ele consulta dados precisos.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">2</div>
+        <h3>Modular e combinavel</h3>
+        <p>Para cada tarefa, voce seleciona as skills relevantes. Analise de empresa? Carregar business_analysis. Calcular DAS? Carregar brazil_tax_complete.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">3</div>
+        <h3>Sempre atualizado</h3>
+        <p>As skills estao no GitHub com versionamento. Quando a legislacao muda (ex: nova tabela Simples), basta atualizar o arquivo e todos os chats futuros recebem o dado novo.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">4</div>
+        <h3>Script executavel</h3>
+        <p>O brazil_cnae_database.py vai alem: e um programa Python que voce executa no terminal para consultar CNAE, calcular Fator-R e comparar regimes automaticamente.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">5</div>
+        <h3>Mentoria estruturada</h3>
+        <p>O conjunto completo permite mentoria empresarial de nivel especializado: desde validar uma ideia, calcular viabilidade, escolher regime tributario ate planejar sucessao.</p>
+      </div>
+      <div class="flow-card">
+        <div class="flow-num">6</div>
+        <h3>Expansivel</h3>
+        <p>Novas skills podem ser adicionadas: CLT completo, ISS por municipio, equity/ESOP, importacao/exportacao. A estrutura ja esta pronta para crescer.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- ARQUITETURA -->
+  <div class="section" style="padding-top:0">
+    <p class="section-title">Arquitetura</p>
+    <h2 class="section-heading">Estrutura de arquivos</h2>
+
+    <div class="arch-diagram">
+<span class="hl-blue">skills/business/</span>                         ← pasta principal no GitHub + Drive
+│
+├── <span class="hl-blue">INDEX.md</span>                              ← este indice (mapa de tudo)
+│
+├── <span class="hl-blue">── GRUPO 1: Estrategia e Negocios ──</span>
+│   ├── <span class="hl-green">business_analysis.md</span>              9.1 KB  | SWOT · Porter · BCG · VRIO
+│   ├── <span class="hl-green">business_idea_validation.md</span>       12.3 KB | Lean Canvas · PMF · TAM/SAM/SOM
+│   ├── <span class="hl-green">business_plan_creation.md</span>         12.8 KB | Plano 8 secoes + Pitch Deck
+│   └── <span class="hl-green">business_viability_calculation.md</span> 13.6 KB | VPL · TIR · Payback · Valuation
+│
+├── <span class="hl-blue">── GRUPO 2: Tributacao Nucleo ──</span>
+│   ├── <span class="hl-amber">brazil_tax_regulatory.md</span>          15.9 KB | Tipos empresa · Regimes · Holding
+│   └── <span class="hl-amber">brazil_tax_complete.md</span>            32.8 KB | 6 Regimes completos · CNAE x Regime
+│
+├── <span class="hl-blue">── GRUPO 3: Tributacao Expansao ──</span>
+│   ├── <span class="hl-amber">brazil_tax_obligations_calendar.md</span> 18.5 KB | Calendario 2026 · Multas · Sistemas
+│   ├── <span class="hl-amber">brazil_tax_special_regimes.md</span>     21.6 KB | RET · REIDI · Lei do Bem · ZFM
+│   ├── <span class="hl-amber">brazil_tax_reform_2026_2032.md</span>    21.9 KB | CBS/IBS · IRPF Min · Cronograma
+│   └── <span class="hl-amber">brazil_tax_individual_optimization.md</span> 22 KB | Pro-labore · PGBL · ITCMD
+│
+└── <span class="hl-purple">── GRUPO 4: Ferramentas ──</span>
+    └── <span class="hl-purple">brazil_cnae_database.py</span>           30.0 KB | 200+ CNAEs · Fator-R · Simulador
+
+<span class="hl-pink">Sincronizado em:</span>
+  GitHub  → github.com/Joehott/skills/tree/main/skills/business
+  Drive   → Pasta ID: 1rUocPt6teyKFQeS7zjF5HH7F9nE32kd2
+  Notion  → Pagina sess_20260517_2226_biz
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- SKILLS CARDS -->
+  <div class="section" style="padding-top:0">
+    <p class="section-title">Conteudo</p>
+    <h2 class="section-heading">Todas as skills da biblioteca</h2>
+
+    <!-- GRUPO 1 -->
+    <div class="group-label">
+      <span class="group-label-text gl-strategy">Grupo 1 — Estrategia e Negocios</span>
+      <div class="group-label-line"></div>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="skill-card group-strategy">
+        <div class="skill-header">
+          <div class="skill-icon icon-strategy">📊</div>
+          <div>
+            <div class="skill-name">business_analysis.md</div>
+            <div class="skill-size">9.1 KB · 8 frameworks</div>
+          </div>
+        </div>
+        <p class="skill-desc">Frameworks completos para analise de empresas existentes. Vai do diagnostico estrategico ate a analise financeira e posicionamento competitivo.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">SWOT</span>
+          <span class="topic-tag">Porter 5 Forcas</span>
+          <span class="topic-tag">PESTEL</span>
+          <span class="topic-tag">BCG Matrix</span>
+          <span class="topic-tag">VRIO</span>
+          <span class="topic-tag">Cadeia de Valor</span>
+          <span class="topic-tag">Mapa Competitivo</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/business_analysis.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1AbOI6nBDYwzCoPhiVqqoV-K7jXHSe5yC" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-strategy">
+        <div class="skill-header">
+          <div class="skill-icon icon-strategy">💡</div>
+          <div>
+            <div class="skill-name">business_idea_validation.md</div>
+            <div class="skill-size">12.3 KB · 8 metodologias</div>
+          </div>
+        </div>
+        <p class="skill-desc">Do Lean Canvas ao Product-Market Fit. Metodologias para validar ideias antes de investir dinheiro real. Inclui unit economics e dimensionamento de mercado.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">Lean Canvas</span>
+          <span class="topic-tag">BMC</span>
+          <span class="topic-tag">PMF</span>
+          <span class="topic-tag">TAM/SAM/SOM</span>
+          <span class="topic-tag">JTBD</span>
+          <span class="topic-tag">CAC/LTV</span>
+          <span class="topic-tag">MVP</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/business_idea_validation.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/17tEnZgF14RlXuAsyE1tL9U02YAuqqG20" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-strategy">
+        <div class="skill-header">
+          <div class="skill-icon icon-strategy">📋</div>
+          <div>
+            <div class="skill-name">business_plan_creation.md</div>
+            <div class="skill-size">12.8 KB · 8 secoes + Pitch</div>
+          </div>
+        </div>
+        <p class="skill-desc">Plano de negocios completo para qualquer empresa. Da descricao da empresa ate o plano financeiro e analise de riscos. Inclui guia para Pitch Deck de 10 slides.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">Sumario Executivo</span>
+          <span class="topic-tag">Analise de Mercado</span>
+          <span class="topic-tag">Marketing/Vendas</span>
+          <span class="topic-tag">DRE 3 anos</span>
+          <span class="topic-tag">Riscos</span>
+          <span class="topic-tag">Pitch Deck</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/business_plan_creation.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1-4UzQxspzYqZPrgZd01QD8VNJZ2yKS7s" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-strategy">
+        <div class="skill-header">
+          <div class="skill-icon icon-strategy">📈</div>
+          <div>
+            <div class="skill-name">business_viability_calculation.md</div>
+            <div class="skill-size">13.6 KB · 10 calculos</div>
+          </div>
+        </div>
+        <p class="skill-desc">Todos os calculos financeiros para decidir se um negocio e viavel antes de abrir. Benchmarks reais do mercado brasileiro para TMA, TIR e multiplos de valuation.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">Break-Even</span>
+          <span class="topic-tag">VPL</span>
+          <span class="topic-tag">TIR</span>
+          <span class="topic-tag">Payback</span>
+          <span class="topic-tag">Valuation</span>
+          <span class="topic-tag">BNDES/VC</span>
+          <span class="topic-tag">Cenarios</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/business_viability_calculation.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1izTAFQi7855xt2QNjzTu5LsjNaRHyUTE" target="_blank">Drive</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GRUPO 2 -->
+    <div class="group-label">
+      <span class="group-label-text gl-tax">Grupo 2 — Tributacao Nucleo</span>
+      <div class="group-label-line"></div>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="skill-card group-tax-core">
+        <div class="skill-header">
+          <div class="skill-icon icon-tax">⚖️</div>
+          <div>
+            <div class="skill-name">brazil_tax_regulatory.md</div>
+            <div class="skill-size">15.9 KB · guia estrategico</div>
+          </div>
+        </div>
+        <p class="skill-desc">O "socio silencioso" explicado. Comparativo de tipos de empresa, arvore de decisao de regime, estrategias legais de otimizacao e as 8 armadilhas mais comuns.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">MEI→SA</span>
+          <span class="topic-tag">5 Anexos Simples</span>
+          <span class="topic-tag">Pro-labore vs Dividendo</span>
+          <span class="topic-tag">Holding</span>
+          <span class="topic-tag">Abertura empresa</span>
+          <span class="topic-tag">Armadilhas</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_tax_regulatory.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1x1pOXlla4vOaR3xgcWn5JJCwZV4uq6sQ" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-tax-core">
+        <div class="skill-header">
+          <div class="skill-icon icon-tax">🗄️</div>
+          <div>
+            <div class="skill-name">brazil_tax_complete.md</div>
+            <div class="skill-size">32.8 KB · maior arquivo · 6 regimes</div>
+          </div>
+        </div>
+        <p class="skill-desc">A enciclopedia tributaria. Cada um dos 6 regimes destrinchado: aliquotas, obrigacoes, CNAE por regime, CLT por regime, LALUR, Transfer Pricing OCDE, CVM. Arquivo de referencia definitivo.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">MEI</span>
+          <span class="topic-tag">Simples + Fator-R</span>
+          <span class="topic-tag">Lucro Presumido</span>
+          <span class="topic-tag">Lucro Real</span>
+          <span class="topic-tag">SA Capital Aberto</span>
+          <span class="topic-tag">Capital Estrangeiro</span>
+          <span class="topic-tag">CNAE×Regime</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_tax_complete.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1axWv7hrDpKUbvKLXMcGj94cRLzmuOASv" target="_blank">Drive</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GRUPO 3 -->
+    <div class="group-label">
+      <span class="group-label-text gl-ext">Grupo 3 — Tributacao Expansao</span>
+      <div class="group-label-line"></div>
+    </div>
+
+    <div class="skills-grid">
+
+      <div class="skill-card group-tax-ext">
+        <div class="skill-header">
+          <div class="skill-icon icon-reform">📅</div>
+          <div>
+            <div class="skill-name">brazil_tax_obligations_calendar.md</div>
+            <div class="skill-size">18.5 KB · calendario 2026</div>
+          </div>
+        </div>
+        <p class="skill-desc">Nunca perder um prazo fiscal. Calendario mensal, trimestral e anual por regime com todas as datas criticas de 2026. Inclui tabela de multas e custo TCO de conformidade.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">FGTS dia 7</span>
+          <span class="topic-tag">DAS dia 20</span>
+          <span class="topic-tag">ECD/ECF</span>
+          <span class="topic-tag">Multas</span>
+          <span class="topic-tag">TCO fiscal</span>
+          <span class="topic-tag">eSocial</span>
+          <span class="topic-tag">FGTS Digital</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_tax_obligations_calendar.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1huXNBoL7MIZyYjGA3Am6EhmGKZNpEPY3" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-tax-ext">
+        <div class="skill-header">
+          <div class="skill-icon icon-reform">🎯</div>
+          <div>
+            <div class="skill-name">brazil_tax_special_regimes.md</div>
+            <div class="skill-size">21.6 KB · 7 regimes especiais</div>
+          </div>
+        </div>
+        <p class="skill-desc">Os incentivos fiscais que a maioria nao conhece. RET para incorporadoras, Lei do Bem para P&D, Zona Franca de Manaus, PADIS para semicondutores e como negociar dividas tributarias.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">RET 4%</span>
+          <span class="topic-tag">REIDI</span>
+          <span class="topic-tag">Lei do Bem</span>
+          <span class="topic-tag">ZFM ate 2073</span>
+          <span class="topic-tag">RECAP</span>
+          <span class="topic-tag">PADIS</span>
+          <span class="topic-tag">Transacao Trib.</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_tax_special_regimes.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1pOId5qtTtLa68gU-NLqP7qaTRubV81qD" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-tax-ext">
+        <div class="skill-header">
+          <div class="skill-icon icon-reform">🔄</div>
+          <div>
+            <div class="skill-name">brazil_tax_reform_2026_2032.md</div>
+            <div class="skill-size">21.9 KB · roadmap completo</div>
+          </div>
+        </div>
+        <p class="skill-desc">A maior reforma tributaria desde 1988 explicada ano a ano. CBS substitui PIS/COFINS, IBS substitui ICMS/ISS, IRPF Minimo de 10% para quem ganha mais de R$600K/ano. Simulacoes numericas por setor.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">CBS 0,9% 2026</span>
+          <span class="topic-tag">IBS 2033</span>
+          <span class="topic-tag">Split Payment</span>
+          <span class="topic-tag">IRPF Minimo</span>
+          <span class="topic-tag">IS Seletivo</span>
+          <span class="topic-tag">Simples 2027</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_tax_reform_2026_2032.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1jiScpU62Zu_Rrtph80GC1Nk6_CJvCdhq" target="_blank">Drive</a>
+        </div>
+      </div>
+
+      <div class="skill-card group-tax-ext">
+        <div class="skill-header">
+          <div class="skill-icon icon-reform">🏦</div>
+          <div>
+            <div class="skill-name">brazil_tax_individual_optimization.md</div>
+            <div class="skill-size">22.0 KB · pessoa fisica</div>
+          </div>
+        </div>
+        <p class="skill-desc">Como o socio paga o minimo legal. Pro-labore otimo (R$5K/mes isento), dividendos estrategicos, PGBL para aposentadoria e planejamento sucessorio urgente antes de 2027 (ITCMD progressivo).</p>
+        <div class="skill-topics">
+          <span class="topic-tag">Pro-labore R$5K</span>
+          <span class="topic-tag">IRPF Minimo</span>
+          <span class="topic-tag">PGBL/VGBL</span>
+          <span class="topic-tag">ITCMD 2027</span>
+          <span class="topic-tag">Holding Familiar</span>
+          <span class="topic-tag">Sucessao</span>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_tax_individual_optimization.md" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1IiyHUJus1DO7aVtixuBgQ-OQDXPS2rHh" target="_blank">Drive</a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GRUPO 4 -->
+    <div class="group-label">
+      <span class="group-label-text gl-tool">Grupo 4 — Ferramentas</span>
+      <div class="group-label-line"></div>
+    </div>
+
+    <div class="skills-grid" style="grid-template-columns: 1fr;">
+
+      <div class="skill-card group-tool" style="max-width:700px;">
+        <div class="skill-header">
+          <div class="skill-icon icon-tool">🐍</div>
+          <div>
+            <div class="skill-name">brazil_cnae_database.py</div>
+            <div class="skill-size">30 KB · executavel · 200+ CNAEs mapeados</div>
+          </div>
+        </div>
+        <p class="skill-desc">Script Python funcional. Informe o codigo CNAE e receba: regime tributario permitido, anexo do Simples, calculo do Fator-R, aliquota efetiva por faturamento e comparativo automatico Simples vs Lucro Presumido.</p>
+        <div class="skill-topics">
+          <span class="topic-tag">CNAE lookup</span>
+          <span class="topic-tag">Fator-R automatico</span>
+          <span class="topic-tag">Simulador DAS</span>
+          <span class="topic-tag">Busca textual</span>
+          <span class="topic-tag">Vedados Simples</span>
+          <span class="topic-tag">Comparativo regimes</span>
+        </div>
+        <div style="background:var(--bg); border-radius:8px; padding:14px 16px; margin: 14px 0; font-family:'Courier New',monospace; font-size:12px; color:#94a3b8; overflow-x:auto;">
+          <div style="color:#4ade80; margin-bottom:4px"># Exemplos de uso</div>
+          <div><span style="color:#818cf8">python3</span> brazil_cnae_database.py <span style="color:#fbbf24">6201500</span></div>
+          <div><span style="color:#818cf8">python3</span> brazil_cnae_database.py <span style="color:#fbbf24">--search</span> engenharia</div>
+          <div><span style="color:#818cf8">python3</span> brazil_cnae_database.py <span style="color:#fbbf24">--simular</span> --cnae 7112000 --faturamento 800000 --folha 250000</div>
+          <div><span style="color:#818cf8">python3</span> brazil_cnae_database.py <span style="color:#fbbf24">--list-vedados</span></div>
+        </div>
+        <div class="skill-links">
+          <a class="skill-link link-gh" href="https://github.com/Joehott/skills/blob/main/skills/business/brazil_cnae_database.py" target="_blank">GitHub</a>
+          <a class="skill-link link-drive" href="https://drive.google.com/file/d/1F1pwoWU_xXkXXRuPbqK6PaFXoeCA44w9" target="_blank">Drive</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- MAPA DE USO -->
+  <div class="section" style="padding-top:0">
+    <p class="section-title">Guia Pratico</p>
+    <h2 class="section-heading">Qual skill usar em cada situacao</h2>
+
+    <div class="table-wrap">
+      <table class="use-table">
+        <thead>
+          <tr>
+            <th>Situacao</th>
+            <th>Skills a carregar</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="situation">Abrir uma nova empresa do zero</td>
+            <td class="skills-needed"><code>brazil_tax_regulatory</code> + <code>brazil_tax_complete</code> + <code>brazil_cnae_database.py</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Validar uma ideia de negocio</td>
+            <td class="skills-needed"><code>business_idea_validation</code> + <code>business_viability_calculation</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Montar plano de negocios completo</td>
+            <td class="skills-needed"><code>business_plan_creation</code> + <code>business_viability_calculation</code> + <code>brazil_tax_regulatory</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Analisar empresa existente</td>
+            <td class="skills-needed"><code>business_analysis</code> + <code>business_viability_calculation</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Calcular o regime tributario ideal</td>
+            <td class="skills-needed"><code>brazil_cnae_database.py</code> + <code>brazil_tax_complete</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Planejar o calendario fiscal 2026</td>
+            <td class="skills-needed"><code>brazil_tax_obligations_calendar</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Aproveitar incentivo fiscal (RET, Lei do Bem, ZFM)</td>
+            <td class="skills-needed"><code>brazil_tax_special_regimes</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Entender impacto da Reforma Tributaria 2026-2033</td>
+            <td class="skills-needed"><code>brazil_tax_reform_2026_2032</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Otimizar retirada do socio (pro-labore vs dividendo)</td>
+            <td class="skills-needed"><code>brazil_tax_individual_optimization</code> + <code>brazil_tax_reform_2026_2032</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Planejamento sucessorio / ITCMD urgente 2026</td>
+            <td class="skills-needed"><code>brazil_tax_individual_optimization</code></td>
+          </tr>
+          <tr>
+            <td class="situation">Negociar divida tributaria (PGFN/RFB)</td>
+            <td class="skills-needed"><code>brazil_tax_special_regimes</code> (secao 7 — Transacao Tributaria)</td>
+          </tr>
+          <tr>
+            <td class="situation">Buscar captacao: BNDES, angel, VC</td>
+            <td class="skills-needed"><code>business_viability_calculation</code> (secao 9 — Financiamento)</td>
+          </tr>
+          <tr>
+            <td class="situation">Mentoria empresarial completa</td>
+            <td class="skills-needed">Todos os 11 arquivos</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- PROXIMOS PASSOS -->
+  <div class="section" style="padding-top:0">
+    <p class="section-title">Roadmap</p>
+    <h2 class="section-heading">Proximos passos sugeridos</h2>
+
+    <div class="next-grid">
+      <div class="next-card">
+        <div class="next-icon">🏙️</div>
+        <div>
+          <h4>ISS por Municipio</h4>
+          <p>Tabela de ISS dos 20 maiores municipios brasileiros com aliquotas, base de calculo e regras especificas. Alta variacao: de 2% a 5%.</p>
+        </div>
+      </div>
+      <div class="next-card">
+        <div class="next-icon">👷</div>
+        <div>
+          <h4>CLT Completo</h4>
+          <p>Verbas rescisórias, calculo de FGTS, tipos de demissao, jornada, banco de horas, PLR e terceirizacao. Essencial para quem contrata.</p>
+        </div>
+      </div>
+      <div class="next-card">
+        <div class="next-icon">📊</div>
+        <div>
+          <h4>Planilha DRE Integrada</h4>
+          <p>Modelo Excel/Sheets com DRE 3 anos, fluxo de caixa, break-even e indices automaticos. Download direto do Drive.</p>
+        </div>
+      </div>
+      <div class="next-card">
+        <div class="next-icon">🚀</div>
+        <div>
+          <h4>Equity & ESOP Startups</h4>
+          <p>Cap table, vesting, cliff, SAFEs, notas conversíveis e ESOP no formato brasileiro (SA). Essencial para quem vai captar investimento.</p>
+        </div>
+      </div>
+      <div class="next-card">
+        <div class="next-icon">🌍</div>
+        <div>
+          <h4>Comercio Exterior</h4>
+          <p>Importacao (NCM, II, IPI, ICMS-I, PIS-I, COFINS-I), drawback, RAC, DU-E. Para empresas que compram ou vendem no exterior.</p>
+        </div>
+      </div>
+      <div class="next-card">
+        <div class="next-icon">🐍</div>
+        <div>
+          <h4>CNAE Database v2</h4>
+          <p>Expandir para os ~1.300 CNAEs completos da Receita Federal com API de consulta e banco SQLite local para buscas offline.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p style="margin-bottom:8px">
+      <strong>Business &amp; Tax Brasil Skill Library</strong> · Sessao sess_20260517_2226_biz
+    </p>
+    <p>
+      <a href="https://github.com/Joehott/skills/tree/main/skills/business" target="_blank">GitHub</a> &nbsp;·&nbsp;
+      Criado por Joelson Hott &nbsp;·&nbsp; Powered by Maton Tasks &amp; Claude &nbsp;·&nbsp; 2026-05-17
+    </p>
+    <p style="margin-top:12px; color:#475569; font-size:11px">
+      Esta biblioteca e para uso estrategico. Sempre valide decisoes tributarias com contador credenciado.
+    </p>
+  </div>
+</footer>
+
+</body>
+</html>

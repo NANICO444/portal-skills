@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guia de Integração — Business & Tax Brasil para Agentes IA</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --surface: #161b22;
+      --surface2: #21262d;
+      --border: #30363d;
+      --accent: #58a6ff;
+      --green: #3fb950;
+      --yellow: #d29922;
+      --red: #f85149;
+      --purple: #bc8cff;
+      --text: #e6edf3;
+      --muted: #8b949e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.6; }
+
+    .hero {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 48px 24px 40px;
+      text-align: center;
+    }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(88,166,255,0.1);
+      border: 1px solid rgba(88,166,255,0.3);
+      color: var(--accent);
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 2px; text-transform: uppercase;
+      padding: 4px 14px; border-radius: 20px;
+      margin-bottom: 18px;
+    }
+    h1 { font-size: clamp(22px, 4vw, 40px); font-weight: 800; letter-spacing: -0.5px; margin-bottom: 12px; }
+    .hero-sub { color: var(--muted); font-size: 15px; max-width: 580px; margin: 0 auto; }
+
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+    .section { padding: 44px 0 32px; }
+    .section + .section { border-top: 1px solid var(--border); }
+
+    h2 { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; color: var(--text); }
+    .section-label { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); margin-bottom: 6px; }
+    p { color: var(--muted); font-size: 14px; margin-bottom: 12px; }
+    p strong { color: var(--text); }
+
+    /* CODE BLOCKS */
+    pre {
+      background: #010409;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px 18px;
+      font-family: 'Courier New', monospace;
+      font-size: 13px;
+      overflow-x: auto;
+      line-height: 1.7;
+      margin: 12px 0 20px;
+    }
+    code { font-family: 'Courier New', monospace; font-size: 12px; }
+    .c-green { color: #3fb950; }
+    .c-blue  { color: #79c0ff; }
+    .c-yellow{ color: #e3b341; }
+    .c-purple{ color: #d2a8ff; }
+    .c-red   { color: #ffa198; }
+    .c-gray  { color: #8b949e; }
+    .c-white { color: #e6edf3; }
+
+    /* CARDS */
+    .cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; margin: 20px 0; }
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+    }
+    .card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .card-icon { font-size: 22px; }
+    .card h3 { margin: 0; font-size: 15px; }
+    .card p { margin: 0; font-size: 13px; }
+
+    /* STEP FLOW */
+    .steps { display: flex; flex-direction: column; gap: 0; margin: 20px 0; }
+    .step { display: flex; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+    .step:last-child { border-bottom: none; }
+    .step-num {
+      width: 28px; height: 28px; flex-shrink: 0;
+      border-radius: 50%;
+      background: rgba(88,166,255,0.12);
+      border: 1px solid rgba(88,166,255,0.3);
+      color: var(--accent);
+      font-weight: 800; font-size: 13px;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step-content h3 { font-size: 14px; margin-bottom: 4px; }
+    .step-content p { font-size: 13px; margin: 0; }
+
+    /* TABLE */
+    .table-wrap { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 16px 0; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { background: var(--surface2); color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; padding: 10px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: rgba(88,166,255,0.03); }
+    .tag { display: inline-block; background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.2); border-radius: 3px; color: #79c0ff; font-size: 11px; padding: 1px 6px; font-family: monospace; margin: 1px; }
+    .tag-green { background: rgba(63,185,80,0.08); border-color: rgba(63,185,80,0.25); color: #3fb950; }
+    .tag-yellow { background: rgba(210,153,34,0.08); border-color: rgba(210,153,34,0.25); color: #d29922; }
+    .tag-red { background: rgba(248,81,73,0.08); border-color: rgba(248,81,73,0.25); color: #f85149; }
+
+    /* ALERT */
+    .alert { display: flex; gap: 12px; border-radius: 8px; padding: 14px 16px; margin: 16px 0; font-size: 13px; }
+    .alert-warn { background: rgba(210,153,34,0.08); border: 1px solid rgba(210,153,34,0.3); color: #e3b341; }
+    .alert-info { background: rgba(88,166,255,0.08); border: 1px solid rgba(88,166,255,0.25); color: #79c0ff; }
+    .alert-green { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.25); color: #3fb950; }
+    .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+    /* TOKEN METER */
+    .token-meter { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+    .bar-row { display: flex; align-items: center; gap: 12px; margin: 8px 0; font-size: 12px; }
+    .bar-label { width: 200px; flex-shrink: 0; color: var(--muted); font-family: monospace; }
+    .bar-wrap { flex: 1; background: var(--surface2); border-radius: 3px; height: 10px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 3px; }
+    .bar-tokens { width: 70px; text-align: right; color: var(--text); font-weight: 600; flex-shrink: 0; }
+
+    footer { border-top: 1px solid var(--border); padding: 24px; text-align: center; color: var(--muted); font-size: 12px; }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    @media(max-width:640px){ .cards { grid-template-columns: 1fr; } .bar-label { width: 140px; font-size: 10px; } }
+  </style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">Guia de Integração · Agentes IA</div>
+  <h1>Entregando a Skill Library para<br>Claude Code, Codex &amp; Hermes</h1>
+  <p class="hero-sub">Como conectar a biblioteca de 56K tokens ao agente de forma eficiente — gastando apenas 6-15K tokens por sessão.</p>
+</div>
+
+<div class="container">
+
+  <!-- ── PROBLEMA ── -->
+  <div class="section">
+    <p class="section-label">O Problema</p>
+    <h2>Por que simplesmente "jogar os arquivos" é caro</h2>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div>Se o agente carregar todos os 11 arquivos de uma vez: <strong>~56.000 tokens de contexto</strong> em cada mensagem. Para GPT-4o ou Claude Sonnet, isso pode custar R$2-8 por conversa. Em 100 sessões de mentoria: R$200-800 desnecessários.</div>
+    </div>
+
+    <div class="token-meter">
+      <h3 style="margin-bottom:14px; font-size:13px; color:var(--muted); font-weight:600; text-transform:uppercase; letter-spacing:1px">Custo por arquivo (tokens)</h3>
+      <div class="bar-row"><span class="bar-label">brazil_tax_complete.md</span><div class="bar-wrap"><div class="bar-fill" style="width:100%;background:#f85149"></div></div><span class="bar-tokens">8.243</span></div>
+      <div class="bar-row"><span class="bar-label">brazil_cnae_database.py</span><div class="bar-wrap"><div class="bar-fill" style="width:90%;background:#f85149"></div></div><span class="bar-tokens">7.445</span></div>
+      <div class="bar-row"><span class="bar-label">brazil_tax_individual…</span><div class="bar-wrap"><div class="bar-fill" style="width:67%;background:#d29922"></div></div><span class="bar-tokens">5.499</span></div>
+      <div class="bar-row"><span class="bar-label">brazil_tax_reform…</span><div class="bar-wrap"><div class="bar-fill" style="width:67%;background:#d29922"></div></div><span class="bar-tokens">5.481</span></div>
+      <div class="bar-row"><span class="bar-label">brazil_tax_special…</span><div class="bar-wrap"><div class="bar-fill" style="width:65%;background:#d29922"></div></div><span class="bar-tokens">5.409</span></div>
+      <div class="bar-row"><span class="bar-label">brazil_tax_obligations…</span><div class="bar-wrap"><div class="bar-fill" style="width:57%;background:#d29922"></div></div><span class="bar-tokens">4.727</span></div>
+      <div class="bar-row"><span class="bar-label">brazil_tax_regulatory.md</span><div class="bar-wrap"><div class="bar-fill" style="width:48%;background:#3fb950"></div></div><span class="bar-tokens">3.967</span></div>
+      <div class="bar-row"><span class="bar-label">business_viability…</span><div class="bar-wrap"><div class="bar-fill" style="width:41%;background:#3fb950"></div></div><span class="bar-tokens">3.401</span></div>
+      <div class="bar-row"><span class="bar-label">business_plan_creation…</span><div class="bar-wrap"><div class="bar-fill" style="width:39%;background:#3fb950"></div></div><span class="bar-tokens">3.189</span></div>
+      <div class="bar-row"><span class="bar-label">business_idea_valid…</span><div class="bar-wrap"><div class="bar-fill" style="width:37%;background:#3fb950"></div></div><span class="bar-tokens">3.082</span></div>
+      <div class="bar-row"><span class="bar-label">business_analysis.md</span><div class="bar-wrap"><div class="bar-fill" style="width:28%;background:#3fb950"></div></div><span class="bar-tokens">2.313</span></div>
+      <div style="border-top:1px solid var(--border); margin-top:12px; padding-top:12px;">
+        <div class="bar-row"><span class="bar-label" style="color:var(--text);font-weight:700">TOTAL se carregar tudo</span><div class="bar-wrap"><div class="bar-fill" style="width:100%;background:rgba(248,81,73,0.4)"></div></div><span class="bar-tokens" style="color:#f85149">~56.000</span></div>
+        <div class="bar-row"><span class="bar-label" style="color:#3fb950;font-weight:700">Com roteador (típico)</span><div class="bar-wrap"><div class="bar-fill" style="width:18%;background:#3fb950"></div></div><span class="bar-tokens" style="color:#3fb950">~9.000</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── SOLUCAO ── -->
+  <div class="section">
+    <p class="section-label">A Solução</p>
+    <h2>Sistema de 3 camadas: Roteador → Skill → Script</h2>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-head"><span class="card-icon">🗺️</span><h3>Camada 1 — AGENTS.md</h3></div>
+        <p><strong>915 tokens.</strong> Sempre carregado. Contém o mapa completo: qual arquivo para qual situação. O agente lê isso e para. Só vai adiante se precisar de detalhes.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-icon">📄</span><h3>Camada 2 — Skill Files</h3></div>
+        <p><strong>2.300–8.200 tokens cada.</strong> Carregados sob demanda. Para 95% das perguntas, 1-2 arquivos são suficientes. Nunca mais que 3 por sessão.</p>
+      </div>
+      <div class="card">
+        <div class="card-head"><span class="card-icon">⚡</span><h3>Camada 3 — Scripts Python</h3></div>
+        <p><strong>~50 tokens de output.</strong> Para CNAE: executar o script em vez de ler o código-fonte (7.445 tokens). 150× mais eficiente.</p>
+      </div>
+    </div>
+
+    <div class="alert alert-green">
+      <span class="alert-icon">✅</span>
+      <div><strong>Resultado:</strong> Custo típico por sessão de mentoria = 915 (roteador) + ~9.000 (2 skills) = <strong>~10.000 tokens</strong>. Economia de 82% vs carregar tudo.</div>
+    </div>
+  </div>
+
+  <!-- ── CLAUDE CODE ── -->
+  <div class="section">
+    <p class="section-label">Integração 1</p>
+    <h2>Claude Code (claude.ai/code ou CLI)</h2>
+
+    <p>Claude Code lê o arquivo <code>CLAUDE.md</code> na raiz do projeto automaticamente a cada sessão. A estratégia é criar um <code>CLAUDE.md</code> mínimo que aponta para a biblioteca.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Clonar o repositório de skills</h3>
+          <p>Clonar uma vez, fica disponível localmente para todas as sessões.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Criar CLAUDE.md na raiz do seu projeto</h3>
+          <p>Claude Code carrega isso automaticamente — sem custo extra de instrução.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Pronto — o agente sabe onde buscar</h3>
+          <p>Quando você faz uma pergunta tributária ou empresarial, ele lê o skill correto e responde com profundidade.</p>
+        </div>
+      </div>
+    </div>
+
+    <pre><span class="c-green"># No terminal do seu projeto:</span>
+
+<span class="c-yellow">git clone</span> https://github.com/Joehott/skills.git <span class="c-blue">./skills</span>
+
+<span class="c-green"># Criar CLAUDE.md na raiz do projeto:</span>
+<span class="c-yellow">cat</span> &gt; CLAUDE.md <span class="c-white">&lt;&lt;'EOF'</span>
+<span class="c-purple"># Skills de Negócio e Tributação — Brasil</span>
+
+Você tem acesso a uma biblioteca de skills especializadas em:
+- Análise e planejamento de negócios
+- Tributação brasileira completa (MEI → SA Capital Aberto)
+- Reforma Tributária 2026-2033
+
+<span class="c-purple">## REGRA: Carregar apenas o necessário</span>
+Antes de responder qualquer pergunta de negócio ou tributação:
+1. Leia: `skills/business/AGENTS.md` (915 tokens — sempre primeiro)
+2. O AGENTS.md dirá qual arquivo carregar para a tarefa específica
+3. Nunca carregue mais de 3 arquivos de skill por sessão
+
+<span class="c-purple">## Para CNAE:</span>
+Execute o script — não leia o código-fonte:
+`python3 skills/business/brazil_cnae_database.py &lt;codigo&gt;`
+`python3 skills/business/brazil_cnae_database.py --search "&lt;termo&gt;"`
+
+<span class="c-purple">## Para descobrir qual skill carregar:</span>
+`python3 skills/business/skills_loader.py "&lt;descreva a tarefa&gt;"`
+<span class="c-white">EOF</span></pre>
+
+    <div class="alert alert-info">
+      <span class="alert-icon">💡</span>
+      <div>Se preferir não clonar, adicione no CLAUDE.md o caminho via GitHub raw: <code>https://raw.githubusercontent.com/Joehott/skills/main/skills/business/AGENTS.md</code> — Claude Code pode fazer WebFetch para buscar sob demanda.</div>
+    </div>
+  </div>
+
+  <!-- ── CODEX / OPENCODE ── -->
+  <div class="section">
+    <p class="section-label">Integração 2</p>
+    <h2>OpenAI Codex / OpenCode</h2>
+
+    <p>Codex e OpenCode leem o arquivo <code>AGENTS.md</code> na raiz do repositório. O arquivo já foi criado na biblioteca com o nome correto.</p>
+
+    <pre><span class="c-green"># Opção A — Clonar e usar localmente:</span>
+<span class="c-yellow">git clone</span> https://github.com/Joehott/skills.git <span class="c-blue">./skills</span>
+
+<span class="c-green"># O AGENTS.md já está em skills/business/AGENTS.md</span>
+<span class="c-green"># Para que o Codex encontre na raiz do projeto:</span>
+<span class="c-yellow">cp</span> skills/business/AGENTS.md ./AGENTS.md
+
+<span class="c-green"># Opção B — Apenas o AGENTS.md como system prompt:</span>
+<span class="c-green"># Copie o conteúdo de AGENTS.md e cole no system prompt do agente.</span>
+<span class="c-green"># 915 tokens fixos no contexto — barato e sempre presente.</span></pre>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div>No Codex, se o agente não tiver acesso ao sistema de arquivos local, use os URLs raw do GitHub. O AGENTS.md já contém os links — o agente pode fazer fetch do arquivo necessário quando precisar.</div>
+    </div>
+  </div>
+
+  <!-- ── HERMES / CHAT GENERICO ── -->
+  <div class="section">
+    <p class="section-label">Integração 3</p>
+    <h2>Hermes / ChatGPT / Gemini / qualquer chat</h2>
+
+    <p>Para agentes sem acesso ao sistema de arquivos, a abordagem é injetar o contexto relevante manualmente antes da pergunta.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h3>Modo Rápido — Cole 1 skill no início da conversa</h3>
+          <p>Identifique o assunto, vá ao GitHub, copie o conteúdo do arquivo relevante e cole antes da sua pergunta. Custo: 1 arquivo = ~4-8K tokens.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h3>Modo Eficiente — Cole só o AGENTS.md</h3>
+          <p>Cole o AGENTS.md (915 tokens) no início da conversa e diga ao agente para buscar o arquivo correto via WebFetch quando precisar.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h3>Modo Sistema — AGENTS.md no System Prompt</h3>
+          <p>Se a plataforma permite System Prompt customizado, cole o AGENTS.md lá. Ele estará disponível em todas as conversas sem custo adicional por mensagem.</p>
+        </div>
+      </div>
+    </div>
+
+    <pre><span class="c-green"># Exemplo de instrução para qualquer agente:</span>
+
+<span class="c-purple">Você tem acesso a uma biblioteca de conhecimento especializado.</span>
+<span class="c-purple">Quando precisar de uma skill específica, faça WebFetch desta URL:</span>
+
+<span class="c-yellow">Base:</span> https://raw.githubusercontent.com/Joehott/skills/main/skills/business/
+
+<span class="c-yellow">Roteador (sempre ler primeiro):</span>
+https://raw.githubusercontent.com/Joehott/skills/main/skills/business/AGENTS.md
+
+<span class="c-yellow">Tributação básica:</span>
+https://raw.githubusercontent.com/Joehott/skills/main/skills/business/brazil_tax_regulatory.md
+
+<span class="c-yellow">Reforma 2026-2033:</span>
+https://raw.githubusercontent.com/Joehott/skills/main/skills/business/brazil_tax_reform_2026_2032.md
+
+<span class="c-yellow">Regra:</span> Carregue APENAS o arquivo necessário para a tarefa.</pre>
+  </div>
+
+  <!-- ── SKILLS LOADER ── -->
+  <div class="section">
+    <p class="section-label">Ferramenta</p>
+    <h2>skills_loader.py — O roteador inteligente</h2>
+
+    <p>Agentes com acesso ao terminal podem usar o roteador para descobrir automaticamente qual skill carregar, sem depender de lógica interna.</p>
+
+    <pre><span class="c-green"># Descobrir quais skills carregar para uma tarefa:</span>
+<span class="c-yellow">python3</span> skills/business/skills_loader.py <span class="c-white">"abrir empresa tech no simples nacional"</span>
+
+<span class="c-green"># Output (exemplo):</span>
+<span class="c-gray">Skills recomendadas (2):
+  1. brazil_tax_regulatory.md — 3967 tokens
+  2. brazil_tax_complete.md   — 8243 tokens
+  Economia: 43.790 tokens vs carregar tudo</span>
+
+<span class="c-green"># Carregar uma skill específica direto no stdout (para pipe):</span>
+<span class="c-yellow">python3</span> skills/business/skills_loader.py --load brazil_tax_regulatory
+
+<span class="c-green"># Listar todas as skills disponíveis:</span>
+<span class="c-yellow">python3</span> skills/business/skills_loader.py --list
+
+<span class="c-green"># Baixar um arquivo do GitHub se não tiver local:</span>
+<span class="c-yellow">python3</span> skills/business/skills_loader.py --fetch brazil_tax_reform_2026_2032</pre>
+  </div>
+
+  <!-- ── CNAE ── -->
+  <div class="section">
+    <p class="section-label">Caso Especial</p>
+    <h2>Consulta CNAE — execute, não leia</h2>
+
+    <div class="alert alert-warn">
+      <span class="alert-icon">⚠️</span>
+      <div><strong>Armadilha comum:</strong> o agente lê o arquivo <code>brazil_cnae_database.py</code> inteiro (7.445 tokens) achando que vai encontrar a resposta. Errado. Ele deve <strong>executar o script</strong> e ler o output (50 tokens).</div>
+    </div>
+
+    <pre><span class="c-red"># ❌ ERRADO — lê 7.445 tokens de código Python:</span>
+Read: skills/business/brazil_cnae_database.py
+
+<span class="c-green"># ✅ CERTO — executa e lê ~50 tokens de resposta:</span>
+<span class="c-yellow">python3</span> skills/business/brazil_cnae_database.py <span class="c-blue">6201500</span>
+<span class="c-yellow">python3</span> skills/business/brazil_cnae_database.py --search <span class="c-blue">"consultoria engenharia"</span>
+<span class="c-yellow">python3</span> skills/business/brazil_cnae_database.py --simular --cnae <span class="c-blue">7112000</span> --faturamento <span class="c-blue">500000</span> --folha <span class="c-blue">120000</span>
+<span class="c-yellow">python3</span> skills/business/brazil_cnae_database.py --list-vedados</pre>
+
+    <div class="table-wrap" style="margin-top:16px">
+      <table>
+        <thead><tr><th>Abordagem</th><th>Tokens</th><th>Velocidade</th><th>Recomendado</th></tr></thead>
+        <tbody>
+          <tr><td>Ler brazil_cnae_database.py</td><td><span class="tag-red" style="display:inline-block;background:rgba(248,81,73,0.1);border:1px solid rgba(248,81,73,0.3);border-radius:3px;color:#f85149;font-size:11px;padding:1px 6px;">7.445 tokens</span></td><td>Lento</td><td>❌ Nunca</td></tr>
+          <tr><td>Executar o script</td><td><span class="tag-green" style="display:inline-block;background:rgba(63,185,80,0.1);border:1px solid rgba(63,185,80,0.3);border-radius:3px;color:#3fb950;font-size:11px;padding:1px 6px;">~50 tokens</span></td><td>Imediato</td><td>✅ Sempre</td></tr>
+          <tr><td>Ler brazil_tax_complete.md</td><td><span class="tag-yellow" style="display:inline-block;background:rgba(210,153,34,0.1);border:1px solid rgba(210,153,34,0.3);border-radius:3px;color:#d29922;font-size:11px;padding:1px 6px;">8.243 tokens</span></td><td>Médio</td><td>⚠️ Só se necessário</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── FLUXO IDEAL ── -->
+  <div class="section">
+    <p class="section-label">Fluxo Ideal</p>
+    <h2>Como o agente deve se comportar em uma sessão</h2>
+
+    <pre><span class="c-green"># 1. Usuário faz uma pergunta de negócio ou tributação</span>
+<span class="c-gray">User: "Qual regime tributário é melhor para minha empresa de SaaS faturando R$800K/ano?"</span>
+
+<span class="c-green"># 2. Agente lê o roteador PRIMEIRO (915 tokens, rápido)</span>
+<span class="c-yellow">Read:</span> skills/business/AGENTS.md
+<span class="c-gray">→ Roteador diz: para "regime tributario" → carregar brazil_tax_regulatory.md</span>
+
+<span class="c-green"># 3. Agente carrega APENAS a skill necessária</span>
+<span class="c-yellow">Read:</span> skills/business/brazil_tax_regulatory.md  <span class="c-gray">(3.967 tokens)</span>
+
+<span class="c-green"># 4. Se precisar calcular alíquota por faturamento:</span>
+<span class="c-yellow">python3</span> skills/business/brazil_cnae_database.py --simular --cnae 6311900 --faturamento 800000
+<span class="c-gray">→ Output: alíquota efetiva 11.54%, DAS R$92.320/ano, comparativo Presumido R$114.640 (50 tokens)</span>
+
+<span class="c-green"># 5. Responde com precisão usando dados reais da skill</span>
+
+<span class="c-purple"># Total de contexto consumido:</span>
+<span class="c-gray">AGENTS.md:               915 tokens
+brazil_tax_regulatory:  3.967 tokens
+Script output:             50 tokens
+─────────────────────────────────────
+TOTAL:                  4.932 tokens   (vs 56.000 se carregasse tudo)</span></pre>
+  </div>
+
+  <!-- ── QUICK REFERENCE ── -->
+  <div class="section">
+    <p class="section-label">Referência Rápida</p>
+    <h2>Tabela de decisão para o agente</h2>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Pergunta recebida contém...</th><th>Carregar</th><th>Tokens</th></tr></thead>
+        <tbody>
+          <tr><td>regime, simples, mei, ltda, abertura, cnpj</td><td><span class="tag">brazil_tax_regulatory.md</span></td><td>3.967</td></tr>
+          <tr><td>alíquota, irpj, csll, pis, cofins, lalur, todos os regimes</td><td><span class="tag">brazil_tax_complete.md</span></td><td>8.243</td></tr>
+          <tr><td>cnae, código de atividade, enquadramento</td><td><span class="tag">EXECUTAR brazil_cnae_database.py</span></td><td>~50</td></tr>
+          <tr><td>prazo, vencimento, multa, das dia 20, ecf, ecd</td><td><span class="tag">brazil_tax_obligations_calendar.md</span></td><td>4.727</td></tr>
+          <tr><td>ret, reidi, lei do bem, zona franca, padis, transação</td><td><span class="tag">brazil_tax_special_regimes.md</span></td><td>5.409</td></tr>
+          <tr><td>reforma, cbs, ibs, 2027, 2033, irpf mínimo, split payment</td><td><span class="tag">brazil_tax_reform_2026_2032.md</span></td><td>5.481</td></tr>
+          <tr><td>pró-labore, dividendo, pgbl, itcmd, herança, holding</td><td><span class="tag">brazil_tax_individual_optimization.md</span></td><td>5.499</td></tr>
+          <tr><td>swot, porter, bcg, vrio, análise de empresa</td><td><span class="tag">business_analysis.md</span></td><td>2.313</td></tr>
+          <tr><td>lean canvas, pmf, validar ideia, tam/sam/som, mvp</td><td><span class="tag">business_idea_validation.md</span></td><td>3.082</td></tr>
+          <tr><td>plano de negócios, pitch deck, estrutura do plano</td><td><span class="tag">business_plan_creation.md</span></td><td>3.189</td></tr>
+          <tr><td>vpl, tir, payback, viabilidade, valuation, break-even</td><td><span class="tag">business_viability_calculation.md</span></td><td>3.401</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ── REPOSITORIO ── -->
+  <div class="section">
+    <p class="section-label">Repositório</p>
+    <h2>Estrutura final no GitHub</h2>
+
+    <pre><span class="c-blue">github.com/Joehott/skills/</span>
+└── skills/business/
+    ├── <span class="c-yellow">AGENTS.md</span>                           ← <span class="c-gray">Roteador — 915 tokens — ler sempre</span>
+    ├── <span class="c-yellow">INDEX.md</span>                            ← <span class="c-gray">Indice completo (humanos)</span>
+    ├── <span class="c-yellow">skills_loader.py</span>                    ← <span class="c-gray">Roteador automatico (agentes)</span>
+    ├── <span class="c-yellow">brazil_cnae_database.py</span>             ← <span class="c-gray">EXECUTAR, nao ler</span>
+    │
+    ├── <span class="c-green">brazil_tax_regulatory.md</span>            ← <span class="c-gray">Regimes, tipos empresa</span>
+    ├── <span class="c-green">brazil_tax_complete.md</span>              ← <span class="c-gray">Referencia completa 6 regimes</span>
+    ├── <span class="c-green">brazil_tax_obligations_calendar.md</span>  ← <span class="c-gray">Calendario 2026</span>
+    ├── <span class="c-green">brazil_tax_special_regimes.md</span>       ← <span class="c-gray">RET, ZFM, Lei do Bem</span>
+    ├── <span class="c-green">brazil_tax_reform_2026_2032.md</span>      ← <span class="c-gray">CBS/IBS/IRPF Minimo</span>
+    ├── <span class="c-green">brazil_tax_individual_optimization.md</span>← <span class="c-gray">PF, PGBL, ITCMD</span>
+    │
+    ├── <span class="c-purple">business_analysis.md</span>                ← <span class="c-gray">SWOT, Porter, BCG</span>
+    ├── <span class="c-purple">business_idea_validation.md</span>         ← <span class="c-gray">Lean Canvas, PMF</span>
+    ├── <span class="c-purple">business_plan_creation.md</span>           ← <span class="c-gray">Plano 8 secoes</span>
+    └── <span class="c-purple">business_viability_calculation.md</span>   ← <span class="c-gray">VPL, TIR, Payback</span>
+
+<span class="c-gray">Raw URL base: https://raw.githubusercontent.com/Joehott/skills/main/skills/business/</span></pre>
+  </div>
+
+</div>
+
+<footer>
+  <p>Business &amp; Tax Brasil Skill Library · <a href="https://github.com/Joehott/skills/tree/main/skills/business">GitHub</a> · sess_20260517_2226_biz · 2026-05-17</p>
+</footer>
+
+</body>
+</html>

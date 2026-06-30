@@ -1,0 +1,221 @@
+# =============================================================================
+# Aurora — config.yaml (operacional)
+# Cérebro de design + frontend de produção completo
+# Última atualização: 2026-05-22
+# Sintaxe validada contra Hermes Agent (commit 5a33176, 2026-05-19)
+# =============================================================================
+#
+# ⚠️ MODELOS EM DECISÃO (2026-05-22):
+#   MODELO_A = papel pesado (primary/arquiteto visual/raciocínio profundo)
+#     Candidatos: DeepSeek V4 Pro (OpenRouter), outros
+#   MODELO_B = papel rápido (executor frontend/subagent/compression)
+#     Candidato anterior: DeepSeek V4 Flash (OpenRouter)
+#   FREE MANTIDOS: Nemotron Omni (auxiliary.vision — analisa imagens BAIXADAS)
+#   REVISOR INDEPENDENTE: deve ser modelo DIFERENTE de MODELO_B
+#     (era Qwen 3.6 Plus pra cobrir blind-spot — ver playbook.md)
+#
+# Quando Miguel decidir, substituir os placeholders pelos model IDs reais.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Modelo principal (Arquiteto visual — MODELO_A)
+# -----------------------------------------------------------------------------
+model:
+  default: "MODELO_A"                           # TBD — era DeepSeek V4 Pro
+  provider: "openrouter"
+  base_url: "https://openrouter.ai/api/v1"
+  # api_key: vem do .env (OPENROUTER_API_KEY)
+
+# -----------------------------------------------------------------------------
+# Comportamento do agente principal
+# -----------------------------------------------------------------------------
+agent:
+  max_turns: 80                                  # mais turnos pra iteração visual longa
+  reasoning_effort: "high"                       # raciocínio profundo no arquiteto visual
+  api_max_retries: 3
+  verbose: false
+
+  personalities:
+    aurora: "You are Aurora, the design + frontend production brain. Speak in PT-BR (brazilian portuguese). Atende Miguel (hermes-owner) e o Pai (hermes-joe-user) via #design-chat. Tone: pragmatic art director — visual-first, opinionated with reasoning, requires brief before creating, never elitist. Karpathy 'criativo' — freedom exists but every visual decision needs function. Prefers showing 3 directions over discussing taste. Cites Impeccable anti-patterns when rejecting. See SOUL.md + personas/README.md for full behavior."
+
+# -----------------------------------------------------------------------------
+# Sub-agentes via delegate_task (Executor — coda frontend)
+# -----------------------------------------------------------------------------
+delegation:
+  max_iterations: 50
+  max_concurrent_children: 3
+  max_spawn_depth: 1                             # flat (sem nested orchestration)
+  orchestrator_enabled: false                    # Aurora NÃO orquestra cascata (Apollo faz isso)
+  subagent_auto_approve: false                   # auto-deny em prompt sensível
+  inherit_mcp_toolsets: true
+
+  # Default subagent: MODELO_B pra execução de código frontend
+  model: "MODELO_B"                              # TBD — era DeepSeek V4 Flash
+  provider: "openrouter"
+  reasoning_effort: "xhigh"
+  child_timeout_seconds: 900                     # 15min — build/render pode demorar
+
+# -----------------------------------------------------------------------------
+# Modelos auxiliares
+# -----------------------------------------------------------------------------
+auxiliary:
+  # Vision — Aurora roda em terminal-only (VPS). Vision serve pra
+  # ANALISAR imagens BAIXADAS (refs externas, screenshots Miguel/Pai manda,
+  # mockups), não pra "ver" output dela.
+  vision:
+    provider: "openrouter"
+    model: "nvidia/nemotron-nano-12b-v2-vl:free"  # ✅ FREE — Nemotron Omni via OpenRouter (mantido)
+    timeout: 30
+
+  web_extract:
+    provider: "openrouter"
+    model: "MODELO_A"                            # TBD — era Qwen 3.6 Plus (leitura de docs/refs externas)
+
+  session_search:
+    provider: "openrouter"
+    model: "MODELO_B"                            # TBD — era DeepSeek V4 Flash
+    timeout: 30
+    max_concurrency: 3
+
+  compression:
+    provider: "openrouter"
+    model: "MODELO_B"                            # TBD — era DeepSeek V4 Flash (compressão barata)
+
+# -----------------------------------------------------------------------------
+# Memória (Aurora NÃO usa Honcho — executor não precisa lembrar preferências
+# cross-session. Contexto vem do card Kanban + workspace local)
+# -----------------------------------------------------------------------------
+memory:
+  memory_enabled: false                          # sem MEMORY.md
+  user_profile_enabled: false                    # sem USER.md
+  # SEM `memory.provider: honcho`
+
+# -----------------------------------------------------------------------------
+# Compression (auto-compactação de contexto)
+# -----------------------------------------------------------------------------
+compression:
+  enabled: true
+  threshold: 0.50
+  target_ratio: 0.20
+  protect_first_n: 3
+  protect_last_n: 20
+
+# -----------------------------------------------------------------------------
+# Prompt caching
+# -----------------------------------------------------------------------------
+prompt_caching:
+  cache_ttl: "1h"                                # sessões longas de design
+
+# -----------------------------------------------------------------------------
+# Session reset (Aurora — sessões longas, NÃO reset auto)
+# -----------------------------------------------------------------------------
+session_reset:
+  mode: "none"
+
+# -----------------------------------------------------------------------------
+# Skills
+# -----------------------------------------------------------------------------
+skills:
+  creation_nudge_interval: 0                     # 0 = disabled (Aurora não cria skills; Conductor faz)
+
+# -----------------------------------------------------------------------------
+# Tool loop guardrails
+# -----------------------------------------------------------------------------
+tool_loop_guardrails:
+  warnings_enabled: true
+  hard_stop_enabled: true                        # Aurora trava em loop iterativo
+  warn_after:
+    exact_failure: 2
+    same_tool_failure: 3
+    idempotent_no_progress: 2
+  hard_stop_after:
+    exact_failure: 3
+    same_tool_failure: 5
+    idempotent_no_progress: 3                    # 3 iterações sem progresso → escala
+
+# -----------------------------------------------------------------------------
+# Kanban — Aurora é WORKER (não orchestrator)
+# kanban-worker é bundled automático
+# -----------------------------------------------------------------------------
+
+# -----------------------------------------------------------------------------
+# Worktree global (cada session em git worktree isolado)
+# -----------------------------------------------------------------------------
+worktree: true
+
+# -----------------------------------------------------------------------------
+# Terminal — workspace dedicado da Aurora
+# -----------------------------------------------------------------------------
+terminal:
+  backend: "local"
+  cwd: "/srv/workspace/aurora"                   # raiz do workspace Aurora
+  timeout: 300                                   # 5min — build pode demorar
+
+# -----------------------------------------------------------------------------
+# Code execution
+# -----------------------------------------------------------------------------
+code_execution:
+  timeout: 600                                   # 10min — pode rodar build/test
+  max_tool_calls: 100
+
+# -----------------------------------------------------------------------------
+# Security scanning (tirith — Aurora consome APIs, vale ter)
+# -----------------------------------------------------------------------------
+security:
+  tirith_enabled: true
+  tirith_timeout: 5
+  tirith_fail_open: true
+
+# -----------------------------------------------------------------------------
+# Provider routing OpenRouter (Aurora prioriza throughput pra build rápido)
+# -----------------------------------------------------------------------------
+provider_routing:
+  sort: "throughput"
+
+# -----------------------------------------------------------------------------
+# OpenRouter response caching
+# -----------------------------------------------------------------------------
+openrouter:
+  response_cache: true
+  response_cache_ttl: 300
+
+# -----------------------------------------------------------------------------
+# Platform toolsets — Aurora opera CLI + Discord (#design-chat)
+# -----------------------------------------------------------------------------
+platform_toolsets:
+  cli: [hermes-cli]
+  discord: [terminal, file, web, vision, image_gen, skills, todo, kanban, browser, send_message]
+
+# -----------------------------------------------------------------------------
+# Discord
+# -----------------------------------------------------------------------------
+discord:
+  require_mention: true
+  auto_thread: true
+  reactions: true
+  history_backfill: true
+  history_backfill_limit: 50
+
+# -----------------------------------------------------------------------------
+# Group sessions
+# -----------------------------------------------------------------------------
+group_sessions_per_user: true
+
+# -----------------------------------------------------------------------------
+# Display
+# -----------------------------------------------------------------------------
+display:
+  compact: false
+  tool_progress: all
+  show_reasoning: false
+  streaming: true
+  bell_on_complete: false
+  cleanup_progress: false
+  busy_input_mode: "interrupt"
+  background_process_notifications: "result"
+
+# -----------------------------------------------------------------------------
+# Browser tool (Aurora usa pra Playwright headless audit + scraping refs)
+# -----------------------------------------------------------------------------
+browser:
+  inactivity_timeout: 180                        # 3min — design audit pode pausar

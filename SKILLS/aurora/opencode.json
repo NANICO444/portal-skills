@@ -1,0 +1,75 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "deepseek/deepseek-v4-pro",
+  "small_model": "deepseek/deepseek-v4-pro",
+  "default_agent": "aurora",
+  "provider": {
+    "deepseek": {
+      "options": {
+        "baseURL": "https://api.deepseek.com"
+      },
+      "models": {
+        "deepseek-v4-pro": {
+          "name": "DeepSeek V4 Pro",
+          "options": {
+            "reasoningEffort": "high",
+            "thinking": {
+              "type": "enabled"
+            }
+          },
+          "variants": {
+            "high": {
+              "reasoningEffort": "high",
+              "thinking": {
+                "type": "enabled"
+              }
+            },
+            "max": {
+              "reasoningEffort": "max",
+              "thinking": {
+                "type": "enabled"
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "instructions": [
+    "AGENTS.md",
+    "prompts/aurora-system.md",
+    "workflows/aurora-8-fases.md",
+    "workflows/opencode-adaptation.md",
+    ".opencode/skills/aurora-routing/SKILL.md",
+    ".opencode/skills/aurora-workflow/SKILL.md"
+  ],
+  "permission": {
+    "read": "allow",
+    "grep": "allow",
+    "glob": "allow",
+    "list": "allow",
+    "lsp": "allow",
+    "task": "allow",
+    "webfetch": "allow",
+    "websearch": "allow",
+    "question": "allow",
+    "skill": {
+      "*": "allow"
+    },
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      "git status*": "allow",
+      "git diff*": "allow",
+      "git log*": "allow",
+      "rg *": "allow",
+      "ls *": "allow",
+      "dir *": "allow",
+      "Get-ChildItem *": "allow",
+      "Get-Content *": "allow",
+      "Select-String *": "allow"
+    }
+  },
+  "share": "manual",
+  "disabled_providers": []
+}

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "openrouter/openai/gpt-oss-120b:free",
+  "default_agent": "orquestrador-conhecimento",
+  "agent": {
+    "orquestrador-conhecimento": {
+      "mode": "primary",
+      "description": "Orquestrador de conhecimento que delega pesquisa/documentacao/arquitetura",
+      "prompt": "Voce eh o Orquestrador de Conhecimento. Sua funcao: 1) entender a tarefa, 2) escolher o sub-agente, 3) delegar via @nome, 4) consolidar. NUNCA execute a tarefa voce mesmo - sempre delegue. Responda em portugues.",
+      "permission": {
+        "skill": { "*": "allow" },
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" }
+      }
+    },
+    "pesquisador": {
+      "mode": "subagent",
+      "description": "Pesquisador - busca informacao tecnica, documentacao, alternativas",
+      "prompt": "Voce eh o pesquisador tecnico. Busca multiplas fontes, compara alternativas com pros/cons, cita fontes, sintetiza resumo executivo. Recomende baseado em evidencia.",
+      "permission": {
+        "edit": { "*": "deny" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "documentador": {
+      "mode": "subagent",
+      "description": "Documentador - cria documentacao tecnica clara e completa",
+      "prompt": "Voce eh o documentador tecnico. Documente: O QUE faz, POR QUE existe, COMO usar com exemplos, edge cases. Para cada funcao: proposito, assinatura, parametros, retorno, excecoes, exemplo.",
+      "permission": {
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "arquiteto": {
+      "mode": "subagent",
+      "description": "Arquiteto de software - desenha e revisa arquitetura",
+      "prompt": "Voce eh o arquiteto. Para cada decisao: entenda contexto e restricoes, identifique trade-offs, proponha 2-3 alternativas com analise, recomende com justificativa.",
+      "permission": {
+        "edit": { "*": "deny" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "devops": {
+      "mode": "subagent",
+      "description": "DevOps - infraestrutura, CI/CD, deploy, monitoramento",
+      "prompt": "Voce eh o engenheiro DevOps. Analise infra, proponha pipeline CI/CD, configure deploy, estabeleca monitoramento. Use Docker, GitHub Actions, ou equivalente. Seguranca em cada camada.",
+      "permission": {
+        "edit": { "*": "allow" },
+        "bash": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "pip install --global *": "deny",
+      "npm install -g *": "deny",
+      "git push *": "ask"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny"
+    },
+    "skill": { "*": "allow" }
+  },
+  "shell": "pwsh"
+}

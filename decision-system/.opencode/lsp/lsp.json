@@ -1,0 +1,71 @@
+{
+  "lsp": {
+    "typescript-language-server": {
+      "command": ["typescript-language-server", "--stdio"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"],
+      "priority": 10,
+      "typescript": {
+        "tsserver": {
+          "path": "C:/Users/User/AppData/Roaming/npm/node_modules/typescript/lib/tsserver.js"
+        }
+      },
+      "filetypes": ["typescript", "javascript", "tsx", "jsx"]
+    },
+    "python-lsp-server": {
+      "command": ["pylsp", "--check-parent-process"],
+      "extensions": [".py", ".pyi"],
+      "priority": 9,
+      "filetypes": ["python"]
+    },
+    "rust-analyzer": {
+      "command": ["rust-analyzer"],
+      "extensions": [".rs"],
+      "priority": 8,
+      "filetypes": ["rust"]
+    },
+    "gopls": {
+      "command": ["gopls"],
+      "extensions": [".go"],
+      "priority": 8,
+      "filetypes": ["go"]
+    },
+    "vscode-html-language-server": {
+      "command": ["vscode-html-language-server", "--stdio"],
+      "extensions": [".html", ".htm"],
+      "priority": 7,
+      "filetypes": ["html"]
+    },
+    "css-language-server": {
+      "command": ["vscode-css-language-server", "--stdio"],
+      "extensions": [".css", ".scss", ".less"],
+      "priority": 7,
+      "filetypes": ["css", "scss", "less"]
+    },
+    "json-language-server": {
+      "command": ["vscode-json-language-server", "--stdio"],
+      "extensions": [".json", ".jsonc"],
+      "priority": 6,
+      "filetypes": ["json", "jsonc"]
+    },
+    "yaml-language-server": {
+      "command": ["yaml-language-server", "--stdio"],
+      "extensions": [".yaml", ".yml"],
+      "priority": 6,
+      "filetypes": ["yaml"]
+    },
+    "marksman": {
+      "command": ["marksman", "server"],
+      "extensions": [".md"],
+      "priority": 5,
+      "filetypes": ["markdown"]
+    }
+  },
+  "diagnostics": {
+    "enable": true,
+    "format": "detailed"
+  },
+  "completion": {
+    "enable": true,
+    "triggerCharacters": [".", ":", "<", '"', "'"]
+  }
+}

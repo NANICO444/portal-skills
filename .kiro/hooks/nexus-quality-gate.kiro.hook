@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "enabled": false,
+  "name": "nexus-quality-gate",
+  "description": "Revisao final opcional: testes, diff, seguranca, verificacao visual e riscos antes de entregar. Ativar manualmente quando desejar.",
+  "when": {
+    "type": "userTriggered"
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "Execute um gate final completo: (1) confira escopo e diff, (2) rode testes/lint/build disponiveis, (3) procure segredos e alteracoes fora de escopo, (4) se mexeu em interface, abra e confira navegador/app, (5) declare riscos residuais e o que nao foi validado. Nao publique, nao faca merge, nao altere arquivos sem antes indicar a correcao necessaria."
+  }
+}

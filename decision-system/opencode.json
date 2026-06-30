@@ -1,0 +1,212 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "default_agent": "strategic-planner",
+  "model": "tokenrouter/MiniMax-M3",
+  "provider": {
+    "tokenrouter": {
+      "name": "TOKEN ROUTER (MiniMax-M3)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://api.tokenrouter.com/v1"
+      },
+      "models": {
+        "MiniMax-M3": {
+          "name": "MiniMax-M3 (Fast Decisions)"
+        }
+      }
+    },
+    "openrouter": {
+      "name": "OpenRouter (Multi-Model Free)",
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "https://openrouter.ai/api/v1"
+      },
+      "models": {
+        "deepseek-v4-flash": {
+          "name": "DeepSeek V4 Flash (Free)"
+        },
+        "claude-opus-4.8": {
+          "name": "Claude Opus 4.8 (Ultra Premium)"
+        },
+        "gpt-oss-120b": {
+          "name": "GPT OSS 120B (Free)"
+        }
+      }
+    },
+    "anthropic": {
+      "name": "Anthropic (Claude Direct)",
+      "npm": "@ai-sdk/anthropic",
+      "models": {
+        "claude-opus-4-8": {
+          "name": "Claude Opus 4.8 (Direct API)"
+        }
+      }
+    }
+  },
+  "agent": {
+    "strategic-planner": {
+      "mode": "primary",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "minimal",
+      "description": "Estrategista principal - visao, prioridades, decisoes rapidas",
+      "prompt": "Voce eh um ESTRATEGISTA. Habilidade: tomar decisoes rapidas e precisas SEM pensar demais. Responda direto, sem enrolar. Decida o que fazer e faca. Modelo: MiniMax-M3 (fast). Delegue para sub-agentes quando necessario. Responda em portugues.",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "financial-advisor": {
+      "mode": "primary",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "minimal",
+      "description": "Consultor financeiro - custos, receita, ROI",
+      "prompt": "Voce eh um CONSULTOR FINANCEIRO. Habilidade: tomar decisoes rapidas sobre dinheiro SEM hesitar. Analise custos, ROI, receita. Resposta direta: sim, nao, ou o valor. Modelo: MiniMax-M3.",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "risk-manager": {
+      "mode": "primary",
+      "model": "tokenrouter/MiniMax-M3",
+      "variant": "minimal",
+      "description": "Gerente de risco - ameacas, vulnerabilidades, compliance",
+      "prompt": "Voce eh um GERENTE DE RISCO. Habilidade: identificar ameacas rapido SEM minimizar. Classifique por severidade. Acao: bloquear, mitigar ou aceitar. Modelo: MiniMax-M3.",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "tech-lead": {
+      "mode": "primary",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "minimal",
+      "description": "Lider tecnico - arquitetura, tecnologia, integracao",
+      "prompt": "Voce eh um LIDER TECNICO. Habilidade: decidir stack/arquitetura rapido SEM duvidar. Escolha tecnologia, explique o porquê em 1 frase. Modelo: DeepSeek V4 Flash (free).",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "marketing-strategist": {
+      "mode": "primary",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "minimal",
+      "description": "Estrategista de marketing - publico, posicionamento, campanhas",
+      "prompt": "Voce eh um ESTRATEGISTA DE MARKETING. Habilidade: decidir publico/mensagem rapido SEM divagar. Foco em ROI. Modelo: DeepSeek V4 Flash (free).",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "ops-manager": {
+      "mode": "primary",
+      "model": "openrouter/deepseek-v4-flash",
+      "variant": "minimal",
+      "description": "Gerente de operacoes - processos, recursos, execucao",
+      "prompt": "Voce eh um GERENTE DE OPERACOES. Habilidade: decidir processo/recurso rapido SEM improvisar. Eficiencia primeiro. Modelo: DeepSeek V4 Flash (free).",
+      "tools": {
+        "skill": { "*": "allow" }
+      },
+      "permission": {
+        "bash": { "*": "allow" },
+        "edit": { "*": "allow" },
+        "skill": { "*": "allow" }
+      }
+    },
+    "visionary": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "description": "Visionario - tendencias futuras, cenarios",
+      "prompt": "Voce pensa 5 anos a frente. Cenario: otimista, pessimista, provavel. Resposta curta."
+    },
+    "prioritizer": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "description": "Priorizador - ranking rapido de tarefas",
+      "prompt": "Ordene itens por impacto vs esforco. Use matriz RICE. Resposta em lista."
+    },
+    "cost-analyzer": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "description": "Analista de custos - decompoe despesas",
+      "prompt": "Decomponha custo em componentes. Identifique o maior item. Sugira corte. Numeros, nao adjetivos."
+    },
+    "revenue-predictor": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "description": "Preditor de receita - forecasting simples",
+      "prompt": "Projete receita baseada em dados. Cenarios: conservador, base, otimista. Numeros especificos."
+    },
+    "threat-scanner": {
+      "mode": "subagent",
+      "model": "tokenrouter/MiniMax-M3",
+      "description": "Scanner de ameacas - busca vulnerabilidades",
+      "prompt": "Escaneie por ameacas. Classifique: Critico, Alto, Medio, Baixo. Acao imediata por nivel."
+    },
+    "solution-architect": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "description": "Arquiteto de solucoes - design tecnico",
+      "prompt": "Desenhe solucao em 3 camadas. Trade-offs em 1 linha. Escolha recomendada."
+    },
+    "integrator": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "description": "Integrador - conecta sistemas/APIs",
+      "prompt": "Conecte A com B. Liste pontos de integracao. Mostre payload exemplo."
+    },
+    "campaign-optimizer": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "description": "Otimizador de campanhas - ROI de marketing",
+      "prompt": "Otimize campanha para ROI. Metricas: CAC, LTV, conversao. 3 acoes para melhorar."
+    },
+    "process-optimizer": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "description": "Otimizador de processos - eficiencia operacional",
+      "prompt": "Mapeie processo, identifique gargalo, proponha melhoria. Tempo economizado em horas."
+    },
+    "resource-allocator": {
+      "mode": "subagent",
+      "model": "openrouter/deepseek-v4-flash",
+      "description": "Alocador de recursos - distribuicao inteligente",
+      "prompt": "Receba lista de recursos e tarefas. Aloque por prioridade. Justifique em 1 linha."
+    }
+  },
+  "permission": {
+    "bash": {
+      "*": "allow",
+      "rm -rf *": "ask",
+      "git push *": "ask"
+    },
+    "edit": {
+      "*": "allow",
+      "*.env": "deny",
+      "*.env.*": "deny"
+    },
+    "skill": { "*": "allow" }
+  },
+  "shell": "pwsh"
+}

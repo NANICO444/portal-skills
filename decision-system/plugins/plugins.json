@@ -1,0 +1,73 @@
+{
+  "plugins": {
+    "comment-checker": {
+      "name": "comment-checker",
+      "description": "Valida comentarios de codigo (TODO, FIXME, etc)",
+      "enabled": true,
+      "module": "@code-yeongyu/comment-checker",
+      "config": {
+        "languages": ["typescript", "javascript", "python", "go", "rust"],
+        "check_todos": true,
+        "check_fixmes": true,
+        "check_hacks": true,
+        "warn_on_uncommented": false
+      }
+    },
+    "metrics": {
+      "name": "metrics",
+      "description": "Coleta metricas de uso de tokens, custos, latencia",
+      "enabled": true,
+      "module": "./plugins/metrics",
+      "config": {
+        "track_tokens": true,
+        "track_cost": true,
+        "track_latency": true,
+        "log_to_file": "workspace/metrics.jsonl"
+      }
+    },
+    "decision-logger": {
+      "name": "decision-logger",
+      "description": "Registra todas as decisoes tomadas em workspace/decisions/",
+      "enabled": true,
+      "module": "./plugins/decision-logger",
+      "config": {
+        "output_dir": "workspace/decisions",
+        "auto_format": true,
+        "include_rationale": true
+      }
+    },
+    "model-router": {
+      "name": "model-router",
+      "description": "Roteia requests para o modelo certo baseado em skill",
+      "enabled": true,
+      "module": "./plugins/model-router",
+      "config": {
+        "fallback_chain": [
+          "openrouter/claude-opus-4.8",
+          "anthropic/claude-opus-4-8",
+          "tokenrouter/MiniMax-M3",
+          "openrouter/deepseek-v4-flash",
+          "openrouter/gpt-oss-120b"
+        ],
+        "use_for_premium_skills": [
+          "complex-architecture-decision",
+          "multi-factor-risk-assessment",
+          "cross-domain-optimization",
+          "adversarial-decision-analysis",
+          "long-term-strategic-forecast"
+        ]
+      }
+    },
+    "auto-commit": {
+      "name": "auto-commit",
+      "description": "Auto commit apos cada decisao bem-sucedida",
+      "enabled": false,
+      "module": "./plugins/auto-commit",
+      "config": {
+        "commit_template": "decision: {title}",
+        "auto_push": false,
+        "require_confirmation": true
+      }
+    }
+  }
+}

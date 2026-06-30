@@ -1,0 +1,213 @@
+# =============================================================================
+# Hefesto — config.yaml (operacional)
+# Cérebro executor técnico do Hermes VPS Stack
+# Última atualização: 2026-05-22
+# Sintaxe validada contra Hermes Agent (commit 5a33176, 2026-05-19)
+# =============================================================================
+#
+# ⚠️ MODELOS EM DECISÃO (2026-05-22):
+#   MODELO_A = papel pesado (primary/arquiteto/raciocínio profundo)
+#     Candidatos: DeepSeek V4 Pro (OpenRouter), outros
+#   MODELO_B = papel rápido (executor/subagent/compression)
+#     Candidato anterior: DeepSeek V4 Flash (OpenRouter)
+#   FREE MANTIDOS: Nemotron Omni (vision)
+#   REVISOR INDEPENDENTE: deve ser modelo DIFERENTE de MODELO_B
+#     (era Qwen 3.6 Plus pra cobrir blind-spot — ver playbook.md §7)
+#
+# Quando Miguel decidir, substituir os placeholders pelos model IDs reais.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Modelo principal (Arquiteto — MODELO_A, papel pesado)
+# -----------------------------------------------------------------------------
+model:
+  default: "MODELO_A"                           # TBD — era DeepSeek V4 Pro
+  provider: "openrouter"
+  base_url: "https://openrouter.ai/api/v1"
+  # api_key: vem do .env (OPENROUTER_API_KEY)
+
+# -----------------------------------------------------------------------------
+# Comportamento do agente principal
+# -----------------------------------------------------------------------------
+agent:
+  max_turns: 80                                  # mais turnos pra debug/refactor complexos
+  reasoning_effort: "high"                       # raciocínio profundo no arquiteto
+  api_max_retries: 3
+  verbose: false
+
+  personalities:
+    hefesto: "You are Hefesto, the engineering executor brain. Speak in PT-BR (brazilian portuguese). Tone: senior calm engineer, direct, technical but human. Always cite evidence (file:line, commit hash, test output with timing). Mark opinions as opinions. Never invent. When using technical terms unfamiliar to user (Miguel ou Pai), define them in parentheses on first use. See SOUL.md for full behavior."
+
+# -----------------------------------------------------------------------------
+# Sub-agentes via delegate_task (Executor — coda conforme plano aprovado)
+# -----------------------------------------------------------------------------
+delegation:
+  max_iterations: 50
+  max_concurrent_children: 3
+  max_spawn_depth: 1                             # flat (no nested orchestration)
+  orchestrator_enabled: false                    # Hefesto NÃO orquestra cascata
+  subagent_auto_approve: false                   # auto-deny em prompt sensível
+  inherit_mcp_toolsets: true
+
+  # Default subagent: MODELO_B com reasoning xhigh
+  # Override por chamada (ex: revisor independente MODELO_A) feito dinamicamente
+  model: "MODELO_B"                              # TBD — era DeepSeek V4 Flash
+  provider: "openrouter"
+  reasoning_effort: "xhigh"
+  child_timeout_seconds: 900                     # 15min — refactor pode demorar
+
+# -----------------------------------------------------------------------------
+# Modelos auxiliares (vision, web_extract, etc)
+# -----------------------------------------------------------------------------
+auxiliary:
+  vision:
+    provider: "openrouter"
+    model: "nvidia/nemotron-omni"                # ✅ FREE — mantido (screenshots de erro, QA visual)
+    timeout: 30
+
+  web_extract:
+    provider: "openrouter"
+    model: "MODELO_A"                            # TBD — era Qwen 3.6 Plus (leitura de docs externas)
+
+  session_search:
+    provider: "openrouter"
+    model: "MODELO_B"                            # TBD — era DeepSeek V4 Flash
+    timeout: 30
+    max_concurrency: 3
+
+  compression:
+    provider: "openrouter"
+    model: "MODELO_B"                            # TBD — era DeepSeek V4 Flash (compressão barata)
+
+# -----------------------------------------------------------------------------
+# Memória (Hefesto NÃO usa Honcho — executor não precisa lembrar preferências)
+# -----------------------------------------------------------------------------
+memory:
+  memory_enabled: false                          # sem MEMORY.md agente
+  user_profile_enabled: false                    # sem USER.md
+  # NÃO há `memory.provider: honcho` — Hefesto pergunta, não consulta KB
+
+# -----------------------------------------------------------------------------
+# Compression (auto-compactação de contexto)
+# -----------------------------------------------------------------------------
+compression:
+  enabled: true
+  threshold: 0.50
+  target_ratio: 0.20
+  protect_first_n: 3
+  protect_last_n: 20
+
+# -----------------------------------------------------------------------------
+# Prompt caching
+# -----------------------------------------------------------------------------
+prompt_caching:
+  cache_ttl: "1h"                                # sessões longas de refactor
+
+# -----------------------------------------------------------------------------
+# Session reset (Hefesto trabalha em sessões longas — NÃO reset auto)
+# -----------------------------------------------------------------------------
+session_reset:
+  mode: "none"
+
+# -----------------------------------------------------------------------------
+# Skills (creation nudge desligado — Hefesto não cria skills, Conductor cria)
+# -----------------------------------------------------------------------------
+skills:
+  creation_nudge_interval: 0                     # 0 = disabled
+
+# -----------------------------------------------------------------------------
+# Tool loop guardrails (anti-trava nativo)
+# -----------------------------------------------------------------------------
+tool_loop_guardrails:
+  warnings_enabled: true
+  hard_stop_enabled: true                        # Hefesto trava mais cedo
+  warn_after:
+    exact_failure: 2
+    same_tool_failure: 3
+    idempotent_no_progress: 2
+  hard_stop_after:
+    exact_failure: 3                             # mais agressivo que default (5)
+    same_tool_failure: 5                         # default era 8
+    idempotent_no_progress: 3                    # default era 5
+
+# -----------------------------------------------------------------------------
+# Kanban (Hefesto é WORKER, não orchestrator)
+# -----------------------------------------------------------------------------
+# Hefesto não define orchestrator_profile (Apollo faz isso globalmente)
+# kanban-worker é bundled automático
+
+# -----------------------------------------------------------------------------
+# Worktree global (cada session em git worktree isolado)
+# -----------------------------------------------------------------------------
+worktree: true
+
+# -----------------------------------------------------------------------------
+# Terminal — workspace por padrão
+# -----------------------------------------------------------------------------
+terminal:
+  backend: "local"
+  cwd: "/srv/workspace/hefesto"                  # workspace dedicado do Hefesto
+  timeout: 300                                   # 5min — comandos podem demorar
+
+# -----------------------------------------------------------------------------
+# Code execution
+# -----------------------------------------------------------------------------
+code_execution:
+  timeout: 600                                   # 10min — pode rodar testes longos
+  max_tool_calls: 100
+
+# -----------------------------------------------------------------------------
+# Security scanning (tirith — opcional mas recomendado pro Hefesto)
+# -----------------------------------------------------------------------------
+security:
+  tirith_enabled: true
+  tirith_timeout: 5
+  tirith_fail_open: true                         # se tirith offline, deixa passar
+
+# -----------------------------------------------------------------------------
+# Provider routing (OpenRouter — Hefesto prioriza throughput)
+# -----------------------------------------------------------------------------
+provider_routing:
+  sort: "throughput"
+
+# -----------------------------------------------------------------------------
+# OpenRouter response caching
+# -----------------------------------------------------------------------------
+openrouter:
+  response_cache: true
+  response_cache_ttl: 300
+
+# -----------------------------------------------------------------------------
+# Platform toolsets — Hefesto opera CLI + Discord (#codigo-chat)
+# -----------------------------------------------------------------------------
+platform_toolsets:
+  cli: [hermes-cli]
+  discord: [terminal, file, web, vision, skills, todo, kanban, browser]
+
+# -----------------------------------------------------------------------------
+# Discord
+# -----------------------------------------------------------------------------
+discord:
+  require_mention: true
+  auto_thread: true
+  reactions: true
+  history_backfill: true
+  history_backfill_limit: 50
+
+# -----------------------------------------------------------------------------
+# Group sessions
+# -----------------------------------------------------------------------------
+group_sessions_per_user: true
+
+# -----------------------------------------------------------------------------
+# Display
+# -----------------------------------------------------------------------------
+display:
+  compact: false
+  tool_progress: all
+  show_reasoning: false                          # não polui chat com reasoning
+  streaming: true
+  bell_on_complete: false
+  cleanup_progress: false
+  busy_input_mode: "interrupt"
+  background_process_notifications: "result"     # só final dos backgrounds

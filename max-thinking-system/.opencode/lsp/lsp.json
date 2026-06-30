@@ -1,0 +1,104 @@
+{
+  "lsp": {
+    "typescript-language-server": {
+      "command": ["typescript-language-server", "--stdio"],
+      "extensions": [".ts", ".tsx", ".js", ".jsx", ".mjs", ".cjs"],
+      "priority": 10,
+      "typescript": { "tsserver": { "path": "C:/Users/User/AppData/Roaming/npm/node_modules/typescript/lib/tsserver.js" } },
+      "filetypes": ["typescript", "javascript"]
+    },
+    "pyright-langserver": {
+      "command": ["pyright-langserver", "--stdio"],
+      "extensions": [".py", ".pyi"],
+      "priority": 10,
+      "filetypes": ["python"]
+    },
+    "ruff-lsp": {
+      "command": ["ruff", "server"],
+      "extensions": [".py", ".pyi"],
+      "priority": 9,
+      "filetypes": ["python"]
+    },
+    "rust-analyzer": {
+      "command": ["rust-analyzer"],
+      "extensions": [".rs"],
+      "priority": 10,
+      "filetypes": ["rust"]
+    },
+    "gopls": {
+      "command": ["gopls"],
+      "extensions": [".go"],
+      "priority": 10,
+      "filetypes": ["go"]
+    },
+    "vscode-html-language-server": {
+      "command": ["vscode-html-language-server", "--stdio"],
+      "extensions": [".html", ".htm", ".svelte", ".vue"],
+      "priority": 8,
+      "filetypes": ["html"]
+    },
+    "vscode-css-language-server": {
+      "command": ["vscode-css-language-server", "--stdio"],
+      "extensions": [".css", ".scss", ".less", ".sass"],
+      "priority": 8,
+      "filetypes": ["css", "scss"]
+    },
+    "tailwindcss-intellisense": {
+      "command": ["tailwindcss-language-server", "--stdio"],
+      "extensions": [".html", ".css", ".tsx", ".jsx", ".vue", ".svelte"],
+      "priority": 7
+    },
+    "vscode-json-language-server": {
+      "command": ["vscode-json-language-server", "--stdio"],
+      "extensions": [".json", ".jsonc", ".json5"],
+      "priority": 7,
+      "filetypes": ["json", "jsonc"]
+    },
+    "yaml-language-server": {
+      "command": ["yaml-language-server", "--stdio"],
+      "extensions": [".yaml", ".yml"],
+      "priority": 7,
+      "filetypes": ["yaml"]
+    },
+    "marksman": {
+      "command": ["marksman", "server"],
+      "extensions": [".md", ".markdown"],
+      "priority": 6,
+      "filetypes": ["markdown"]
+    },
+    "sqls": {
+      "command": ["sqls"],
+      "extensions": [".sql"],
+      "priority": 8,
+      "filetypes": ["sql"]
+    },
+    "docker-langserver": {
+      "command": ["docker-langserver", "--stdio"],
+      "extensions": ["Dockerfile", ".dockerfile"],
+      "priority": 7
+    },
+    "bash-language-server": {
+      "command": ["bash-language-server", "start"],
+      "extensions": [".sh", ".bash", ".zsh"],
+      "priority": 7,
+      "filetypes": ["shellscript"]
+    }
+  },
+  "diagnostics": {
+    "enable": true,
+    "format": "detailed",
+    "show_errors": true,
+    "show_warnings": true
+  },
+  "completion": {
+    "enable": true,
+    "triggerCharacters": [".", ":", "<", '"', "'", "/", "@"]
+  },
+  "format_on_save": true,
+  "code_actions": {
+    "enable": true,
+    "quick_fix": true,
+    "refactor": true,
+    "source_organize_imports": true
+  }
+}

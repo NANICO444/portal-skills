@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>✦ Skills — Pastas & Melhorias de Agentes</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0f;
+    color: #e0e0e0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  /* Background grid sutil */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Hero */
+  .hero {
+    text-align: center;
+    padding: 80px 0 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    margin-bottom: 60px;
+  }
+
+  .hero .icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    display: block;
+  }
+
+  .hero h1 {
+    font-size: 42px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8b5cf6, #3b82f6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: -1px;
+    line-height: 1.2;
+  }
+
+  .hero .subtitle {
+    font-size: 18px;
+    color: #888;
+    margin-top: 12px;
+    font-weight: 300;
+  }
+
+  .hero .tagline {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 20px;
+    border-radius: 100px;
+    background: rgba(139, 92, 246, 0.12);
+    border: 1px solid rgba(139, 92, 246, 0.2);
+    color: #a78bfa;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+  }
+
+  /* Section headings */
+  h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: #fff;
+    margin: 48px 0 20px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  h2 .num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(139, 92, 246, 0.15);
+    color: #a78bfa;
+    font-size: 14px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  h3 {
+    font-size: 18px;
+    font-weight: 600;
+    color: #c8c8c8;
+    margin: 28px 0 12px;
+  }
+
+  /* Cards */
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 28px;
+    margin-bottom: 20px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(139, 92, 246, 0.25);
+    background: rgba(255,255,255,0.05);
+  }
+
+  .card .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card p {
+    color: #aaa;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* Grid de 3 sistemas */
+  .system-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .system-card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 14px;
+    padding: 24px;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .system-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(139, 92, 246, 0.3);
+  }
+
+  .system-card .sys-icon {
+    font-size: 28px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .system-card h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .system-card .sys-sub {
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 10px;
+  }
+
+  .system-card p {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.6;
+  }
+
+  .system-card .badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .badge-code { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.2); }
+  .badge-decision { background: rgba(139, 92, 246, 0.15); color: #a78bfa; border: 1px solid rgba(139, 92, 246, 0.2); }
+  .badge-super { background: rgba(236, 72, 153, 0.15); color: #f472b6; border: 1px solid rgba(236, 72, 153, 0.2); }
+
+  /* Tabela */
+  .stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 14px;
+  }
+
+  .stats-table th {
+    text-align: left;
+    padding: 10px 12px;
+    background: rgba(255,255,255,0.04);
+    color: #999;
+    font-weight: 500;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .stats-table td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: #bbb;
+  }
+
+  .stats-table td:first-child { color: #fff; font-weight: 500; }
+
+  /* Listas */
+  ul { padding-left: 20px; margin: 8px 0; }
+  li { color: #aaa; font-size: 15px; margin-bottom: 6px; }
+  li strong { color: #ddd; }
+
+  /* Links */
+  a {
+    color: #818cf8;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(129, 140, 248, 0.2);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  a:hover { color: #a5b4fc; border-bottom-color: #818cf8; }
+
+  .link-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .link-list li {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .link-list li:last-child { border-bottom: none; }
+
+  .link-list .link-path {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: #666;
+    margin-top: 2px;
+  }
+
+  /* Code blocks */
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 4px;
+    color: #c8c8c8;
+  }
+
+  pre {
+    background: rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 16px 20px;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+
+  pre code {
+    background: none;
+    padding: 0;
+    color: #a5b4fc;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 24px 0;
+  }
+
+  .stat-item {
+    flex: 1;
+    min-width: 120px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 12px;
+    padding: 16px 20px;
+    text-align: center;
+  }
+
+  .stat-item .stat-num {
+    font-size: 28px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #8b5cf6, #06b6d4);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .stat-item .stat-label {
+    font-size: 12px;
+    color: #777;
+    margin-top: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Nota */
+  .note {
+    background: rgba(251, 191, 36, 0.06);
+    border: 1px solid rgba(251, 191, 36, 0.12);
+    border-radius: 12px;
+    padding: 16px 20px;
+    font-size: 14px;
+    color: #fbbf24;
+    margin: 20px 0;
+  }
+
+  .note strong { color: #fcd34d; }
+
+  /* Divider */
+  hr {
+    border: none;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin: 48px 0;
+  }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 40px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    margin-top: 60px;
+  }
+
+  .footer p {
+    font-size: 13px;
+    color: #555;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: #0a0a0f; }
+  ::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: #555; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 28px; }
+    .container { padding: 30px 16px 80px; }
+    .system-grid { grid-template-columns: 1fr; }
+    .stats-bar { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero">
+    <span class="icon">⚡</span>
+    <h1>Skills · Pastas &amp;<br>Melhorias de Agentes</h1>
+    <p class="subtitle">Kit de super-poderes para OpenCode — skills, agentes, regras e sistemas</p>
+    <span class="tagline">✦ 181+ skills · 35+ agentes · 3 sistemas · 9 fontes</span>
+  </div>
+
+  <!-- O QUE É -->
+  <h2><span class="num">1</span> O que é esta pasta</h2>
+
+  <div class="card">
+    <p>
+      Esta pasta é o <strong>centro nervoso</strong> do seu setup OpenCode. Ela reúne <strong>9 fontes de conhecimento</strong>
+      absorvidas de projetos como Kiro, Vercel Labs, Ultra Prompt Nexus, oh-my-openagent, Aurora, Hefesto, Taste Skill
+      e Impeccable — tudo sintetizado, organizado e pronto para uso.
+    </p>
+    <p style="margin-top: 12px;">
+      Em vez de ter 9 projetos separados que você nunca lembra onde estão, <strong>tudo converge aqui</strong>:
+      skills no formato OpenCode, agentes especializados, regras de comportamento e 3 sistemas completos
+      para cenários diferentes.
+    </p>
+  </div>
+
+  <!-- NÚMEROS -->
+  <div class="stats-bar">
+    <div class="stat-item">
+      <div class="stat-num">181+</div>
+      <div class="stat-label">Skills instaláveis</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">35+</div>
+      <div class="stat-label">Agentes especialistas</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">3</div>
+      <div class="stat-label">Sistemas completos</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">9</div>
+      <div class="stat-label">Fontes absorvidas</div>
+    </div>
+  </div>
+
+  <!-- PARA QUE SERVE -->
+  <h2><span class="num">2</span> Para que serve</h2>
+
+  <div class="card">
+    <div class="card-title">🎯 Dar super-poderes ao OpenCode</div>
+    <p>
+      Cada skill é uma instrução especializada que o OpenCode carrega automaticamente. Em vez de você
+      ter que pedir "faça code review com segurança OWASP" e explicar o que é — a skill já traz
+      a metodologia pronta. É como ter <strong>dezenas de manuais de referência</strong> dentro do seu terminal.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🧠 Decidir mais rápido e melhor</div>
+    <p>
+      Com o sistema de decisão, você pode classificar qualquer pergunta e receber uma resposta
+      em 30-60 segundos com justificativa e ação: deve investir? qual stack usar? é arriscado?
+      como organizar o processo? Os agentes decisores usam modelos leves (MiniMax-M3, DeepSeek Flash)
+      para responder sem custo.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🔍 Supervisionar código com rigor</div>
+    <p>
+      O sistema max-thinking tem 12 agentes de auditoria que examinam código em 9 dimensões
+      (segurança, performance, cobertura de testes, dependências, padrões, docs, linter, fix suggester,
+      code review extremo). A skill <code>supervisor</code> devolve um veredito estruturado:
+      aprovado/rejeitado, score, o que apagar, o que adicionar, o que fazer, o que baixar.
+    </p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">🤖 Orquestrar agentes headless</div>
+    <p>
+      O sistema multi-agent roda 2 servidores OpenCode headless (portas 3001 e 3002), cada um com
+      seus sub-agentes especialistas. Um orquestrador delega tarefas: code review, testes, debug,
+      refatoração, segurança, otimização, pesquisa, documentação, arquitetura e DevOps.
+    </p>
+  </div>
+
+  <!-- OS 3 SISTEMAS -->
+  <h2><span class="num">3</span> Os 3 sistemas</h2>
+
+  <div class="system-grid">
+    <div class="system-card">
+      <span class="sys-icon">🤖</span>
+      <h4>Multi-Agent</h4>
+      <div class="sys-sub">Servidores headless · Código</div>
+      <p>2 servidores, 10 sub-agentes, 164 skills. Para trabalho de código, debug, code review e implementação.</p>
+      <span class="badge badge-code">Codigo</span>
+    </div>
+
+    <div class="system-card">
+      <span class="sys-icon">⚖️</span>
+      <h4>Decision System</h4>
+      <div class="sys-sub">Decisões rápidas · 30-60s</div>
+      <p>6 agentes decisores + 5 skills ultra (Claude Opus 4.8). Para perguntas de SIM/NAO, ROI, risco, stack.</p>
+      <span class="badge badge-decision">Decisao</span>
+    </div>
+
+    <div class="system-card">
+      <span class="sys-icon">🛡️</span>
+      <h4>Max-Thinking</h4>
+      <div class="sys-sub">Supervisão · Auditoria profunda</div>
+      <p>12 agentes de auditoria, 9 dimensões, skill <code>supervisor</code>. Para code review rigoroso.</p>
+      <span class="badge badge-super">Supervisao</span>
+    </div>
+  </div>
+
+  <!-- COMO FUNCIONA -->
+  <h2><span class="num">4</span> Como funciona na prática</h2>
+
+  <div class="card">
+    <p>
+      O OpenCode já está configurado para carregar automaticamente skills, agentes e regras desta pasta
+      através de <strong>junction points</strong> no diretório global:
+    </p>
+
+    <pre><code>~/.config/opencode/skills/  →  junction para 181 skills
+~/.config/opencode/agents/ →  junction para agentes max-thinking
+~/.config/opencode/rules/  →  regras always-* aplicadas em todo chat</code></pre>
+
+    <p style="margin-top: 12px;">
+      <strong>É automático.</strong> Você só precisa reiniciar o OpenCode. Em qualquer chat novo,
+      ele já vem com tudo carregado. Skills são ativadas por palavra-chave no seu prompt —
+      você não precisa nem lembrar o nome delas.
+    </p>
+
+    <div class="note">
+      <strong>⚡ Dica:</strong> Se quiser rodar o OpenCode apontando para um sistema específico:
+      <pre><code>opencode --dir "skills pastas melhorias agentes\multi-agent"
+opencode --dir "skills pastas melhorias agentes\decision-system"
+opencode --dir "skills pastas melhorias agentes\max-thinking-system"</code></pre>
+    </div>
+  </div>
+
+  <!-- QUANDO É MAIS ÚTIL -->
+  <h2><span class="num">5</span> Quando é mais útil</h2>
+
+  <div class="card">
+    <table class="stats-table">
+      <tr>
+        <th>Cenário</th>
+        <th>Sistema</th>
+        <th>Por que</th>
+      </tr>
+      <tr>
+        <td>Code review de PR</td>
+        <td>Max-Thinking</td>
+        <td>9 auditores + supervisor com veredito</td>
+      </tr>
+      <tr>
+        <td>Decidir stack/library</td>
+        <td>Decision System</td>
+        <td>Tech-lead responde em 30s</td>
+      </tr>
+      <tr>
+        <td>Debug de bug complexo</td>
+        <td>Multi-Agent</td>
+        <td>Debugger + testador + refatorador</td>
+      </tr>
+      <tr>
+        <td>Calcular risco de decisão</td>
+        <td>Decision System</td>
+        <td>Risk-manager + advisor financeiro</td>
+      </tr>
+      <tr>
+        <td>Auditoria de segurança</td>
+        <td>Max-Thinking</td>
+        <td>Security-auditor OWASP Top 10</td>
+      </tr>
+      <tr>
+        <td>Pesquisar tecnologia nova</td>
+        <td>Multi-Agent</td>
+        <td>Pesquisador + documentador</td>
+      </tr>
+      <tr>
+        <td>Revisão pré-publish</td>
+        <td>Max-Thinking</td>
+        <td>Dependency + security + performance</td>
+      </tr>
+      <tr>
+        <td>Automação DevOps/CI</td>
+        <td>Multi-Agent</td>
+        <td>Devops agent + scripts PowerShell</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- ARQUIVOS E LINKS ÚTEIS -->
+  <h2><span class="num">6</span> Arquivos &amp; links úteis</h2>
+
+  <div class="card">
+    <ul class="link-list">
+      <li>
+        <a href="README.md">📖 README.md</a>
+        <span class="link-path">skills pastas melhorias agentes/README.md</span>
+        Visão geral do projeto, os 3 sistemas, estrutura completa
+      </li>
+      <li>
+        <a href="INDEX.md">📑 INDEX.md</a>
+        <span class="link-path">skills pastas melhorias agentes/INDEX.md</span>
+        Índice das 50 skills mais úteis organizadas por cenário
+      </li>
+      <li>
+        <a href="ARCHITECTURE.md">🏗️ ARCHITECTURE.md</a>
+        <span class="link-path">skills pastas melhorias agentes/ARCHITECTURE.md</span>
+        Mapa detalhado dos 3 sistemas, quando usar cada um
+      </li>
+      <li>
+        <a href="WORKFLOWS.md">🔄 WORKFLOWS.md</a>
+        <span class="link-path">skills pastas melhorias agentes/WORKFLOWS.md</span>
+        Fluxos de uso prático para tarefas comuns
+      </li>
+      <li>
+        <a href="multi-agent/">🤖 multi-agent/</a>
+        <span class="link-path">skills pastas melhorias agentes/multi-agent/</span>
+        Sistema 1: servidores headless + scripts PS1 + 164 skills
+      </li>
+      <li>
+        <a href="decision-system/">⚖️ decision-system/</a>
+        <span class="link-path">skills pastas melhorias agentes/decision-system/</span>
+        Sistema 2: 6 decisores rápidos + LSP/MCP config
+      </li>
+      <li>
+        <a href="max-thinking-system/">🛡️ max-thinking-system/</a>
+        <span class="link-path">skills pastas melhorias agentes/max-thinking-system/</span>
+        Sistema 3: 12 auditores + skill supervisora
+      </li>
+      <li>
+        <a href="models/free_models_report.md">📊 Relatório de Modelos Gratuitos</a>
+        <span class="link-path">skills pastas melhorias agentes/models/free_models_report.md</span>
+        Pesquisa completa de modelos LLM gratuitos para OpenCode
+      </li>
+      <li>
+        <a href="templates/">📋 templates/</a>
+        <span class="link-path">skills pastas melhorias agentes/templates/</span>
+        Templates: PR.md, ADR.md, review.md
+      </li>
+      <li>
+        <a href="prompts/">💬 prompts/</a>
+        <span class="link-path">skills pastas melhorias agentes/prompts/</span>
+        Prompts reutilizáveis por cenário
+      </li>
+      <li>
+        <a href="docs/">📚 docs/</a>
+        <span class="link-path">skills pastas melhorias agentes/docs/</span>
+        Documentação complementar
+      </li>
+    </ul>
+  </div>
+
+  <!-- ESTRUTURA -->
+  <h2><span class="num">7</span> Estrutura da pasta</h2>
+
+  <div class="card">
+    <pre><code>skills pastas melhorias agentes/
+├── 📄 README.md              ← Visão geral (este arquivo explica)
+├── 📄 INDEX.md               ← Índice de skills por cenário
+├── 📄 ARCHITECTURE.md        ← Mapa dos 3 sistemas
+├── 📄 WORKFLOWS.md           ← Fluxos de uso
+├── 📄 SOBRE.html             ← ⬅️ Você está aqui
+│
+├── 📂 multi-agent/           ← Sistema 1: código + servidores
+├── 📂 decision-system/       ← Sistema 2: decisão rápida
+├── 📂 max-thinking-system/   ← Sistema 3: supervisão profunda
+│
+├── 📂 models/                ← Relatórios de modelos gratuitos
+├── 📂 templates/             ← Templates PR/ADR/review
+├── 📂 prompts/               ← Prompts prontos
+├── 📂 docs/                  ← Documentação extra
+│
+├── 📂 .kiro/                 ← Fonte (original, não modificar)
+├── 📂 .agents/               ← Fonte Vercel Labs
+├── 📂 ULTRA_PROMPT_ANTIGRAVITY/ ← Fonte Nexus
+├── 📂 SKILLS/                ← Fonte Aurora + Hefesto
+├── 📂 oh-my-openagent/       ← Fonte plugin
+├── 📂 referencias_originais/ ← Fonte
+├── 📂 skills_github/         ← Fonte Impeccable/Taste
+├── 📂 skills_refinadas/      ← Fonte refinada
+└── 📂 SKILLS/                ← Fonte skills base</code></pre>
+  </div>
+
+  <!-- PRIVACIDADE E OBS -->
+  <h2><span class="num">8</span> Notas importantes</h2>
+
+  <div class="card">
+    <p>📍 <strong>As pastas-fonte (.kiro/, .agents/, ULTRA_PROMPT_ANTIGRAVITY/, SKILLS/, oh-my-openagent/, etc.) não devem ser modificadas.</strong> Elas são a origem do conhecimento — as skills sintetizadas estão em <code>multi-agent/.opencode/skills/</code>.</p>
+  </div>
+
+  <div class="card">
+    <p>📍 <strong>181+ skills não é exagero.</strong> Cada skill é um arquivo <code>.md</code> com frontmatter YAML que o OpenCode interpreta automaticamente. Você pode ver a lista em <code>INDEX.md</code>.</p>
+  </div>
+
+  <div class="card">
+    <p>📍 <strong>Junction points</strong> são links simbólicos do sistema. Se o OpenCode parar de reconhecer skills ou agentes, verifique se os junctions em <code>~/.config/opencode/</code> ainda apontam para esta pasta.</p>
+  </div>
+
+  <div class="card">
+    <p>📍 <strong>Os 3 sistemas compartilham skills</strong>, mas têm configurações independentes (LSP, MCP, regras). Se você modificar um agente no multi-agent, ele não afeta o max-thinking.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>✦ Skills · Pastas & Melhorias de Agentes ✦</p>
+    <p style="margin-top: 4px;">Junho 2026 · OpenCode ecosystem</p>
+  </div>
+
+</div>
+
+</body>
+</html>

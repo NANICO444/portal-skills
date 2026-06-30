@@ -1,0 +1,124 @@
+{
+  "plugins": {
+    "supervisor-engine": {
+      "name": "supervisor-engine",
+      "description": "Motor supervisor - roda o fluxo completo de revisao (code-review + security + performance + tests + docs + deps)",
+      "enabled": true,
+      "module": "./plugins/custom/supervisor-engine",
+      "config": {
+        "auto_invoke_on_save": true,
+        "auto_invoke_on_commit": true,
+        "sub_agents_to_call": [
+          "code-reviewer-x",
+          "security-auditor",
+          "performance-auditor",
+          "test-coverage-auditor",
+          "docs-auditor",
+          "dependency-auditor",
+          "standards-enforcer"
+        ],
+        "output_dir": "workspace/reviews",
+        "block_commit_on_critical": true
+      }
+    },
+    "code-archeologist": {
+      "name": "code-archeologist",
+      "description": "Arqueologo de codigo - descobre codigo morto, TODOs antigos, funcoes nao usadas, dependencias orfas",
+      "enabled": true,
+      "module": "./plugins/custom/code-archeologist",
+      "config": {
+        "scan_dead_code": true,
+        "scan_unused_imports": true,
+        "scan_unused_exports": true,
+        "scan_orphan_files": true,
+        "scan_old_todos": true,
+        "todo_max_age_days": 90,
+        "auto_suggest_removal": true
+      }
+    },
+    "library-recommender": {
+      "name": "library-recommender",
+      "description": "Recomendador automatico de bibliotecas - detecta quando uma lib seria util e sugere",
+      "enabled": true,
+      "module": "./plugins/custom/library-recommender",
+      "config": {
+        "detect_patterns": true,
+        "suggest_alternatives": true,
+        "check_npm_registry": true,
+        "check_pypi_registry": true,
+        "rate_by": ["maintenance", "popularity", "size", "license"]
+      }
+    },
+    "deep-analyzer": {
+      "name": "deep-analyzer",
+      "description": "Analisador profundo - roda analise 5 camadas em qualquer codigo/arquivo",
+      "enabled": true,
+      "module": "./plugins/custom/deep-analyzer",
+      "config": {
+        "layers": ["observable", "structure", "dynamic", "properties", "meta"],
+        "auto_invoke_on_complex_files": true,
+        "complex_file_threshold_lines": 200
+      }
+    },
+    "metrics-collector": {
+      "name": "metrics-collector",
+      "description": "Coletor de metricas - tokens, custo, latencia, qualidade",
+      "enabled": true,
+      "module": "./plugins/custom/metrics-collector",
+      "config": {
+        "track_tokens": true,
+        "track_cost": true,
+        "track_latency": true,
+        "track_thinking_depth": true,
+        "log_to_file": "workspace/metrics.jsonl"
+      }
+    },
+    "auto-fix-safe": {
+      "name": "auto-fix-safe",
+      "description": "Auto-fix SEGURO - aplica fixes automaticos apenas para problemas de baixa severidade",
+      "enabled": false,
+      "module": "./plugins/custom/auto-fix-safe",
+      "config": {
+        "auto_apply": ["formatting", "imports", "lint-basic"],
+        "require_approval_for": ["refactor", "dependency-upgrade", "security-fix"],
+        "never_auto_apply": ["breaking-changes", "schema-changes", "auth-changes"]
+      }
+    },
+    "knowledge-graph": {
+      "name": "knowledge-graph",
+      "description": "Grafo de conhecimento - mapeia relacoes entre modulos, funcoes, deps",
+      "enabled": true,
+      "module": "./plugins/custom/knowledge-graph",
+      "config": {
+        "build_graph": true,
+        "visualize_to": "workspace/knowledge-graph.html",
+        "track_changes_over_time": true,
+        "output_format": ["html", "json", "dot"]
+      }
+    },
+    "code-archaeology": {
+      "name": "code-archaeology",
+      "description": "Arqueologia de codigo - git history + blame para encontrar origem de decisoes",
+      "enabled": true,
+      "module": "./plugins/custom/code-archaeology",
+      "config": {
+        "git_blame_enabled": true,
+        "git_log_enabled": true,
+        "show_authors": true,
+        "show_recent_changes": true
+      }
+    },
+    "smell-detector": {
+      "name": "smell-detector",
+      "description": "Detector de code smells - long methods, god classes, feature envy, etc",
+      "enabled": true,
+      "module": "./plugins/custom/smell-detector",
+      "config": {
+        "long_method_threshold": 50,
+        "long_param_list_threshold": 5,
+        "god_class_threshold_methods": 20,
+        "duplicated_code_min_lines": 5
+      }
+    }
+  }
+}

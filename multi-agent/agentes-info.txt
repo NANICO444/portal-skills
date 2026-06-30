@@ -1,0 +1,141 @@
+﻿╔═══════════════════════════════════════════════════════════════════╗
+║          MULTI-AGENT SYSTEM — INFORMAÇÃO COMPLETA               ║
+║          OpenCode | 153 Super-Powers | 10 Sub-Agentes           ║
+╚═══════════════════════════════════════════════════════════════════╝
+
+▸ Criado: 18/06/2026
+▸ Dir: C:\Users\User\Desktop\COISAS JOAO\skills pastas melhorias agentes\multi-agent\
+▸ Instrução detalhada: INSTRUCAO_OPENCODE.md
+▸ SKILL mestre: .opencode/skills/master-orquestrador/SKILL.md
+▸ Regra permanente: .omo/rules/always-use-agents.md (alwaysApply: true)
+
+─── SERVIDORES ────────────────────────────────────────────────────
+
+  Agent 1 (Code)    http://127.0.0.1:3001   PID 17008  ✓ Ativo
+    └─ Modelo: opencode/north-mini-code-free
+    └─ 6 sub-agentes de código + orquestrador
+
+  Agent 2 (Knowledge) http://127.0.0.1:3002  PID 21248  ✓ Ativo
+    └─ Modelo: openrouter/openai/gpt-oss-120b:free
+    └─ 4 sub-agentes de conhecimento + orquestrador
+
+  OpenCode GUI      PID 17900   ✓ Rodando (porta CLI: 58022)
+
+  Auth: opencode / b5fb90e2-06f0-4554-9657-73028cdb7ca7
+
+─── SUB-AGENTES ───────────────────────────────────────────────────
+
+  AGENT 1 (Código) — north-mini-code-free
+
+    @orquestrador          Líder — delega toda tarefa técnica
+    @code-reviewer         Revisa qualidade, segurança, boas práticas
+    @testador              Cria testes unitários, TDD
+    @debugger              Debug sistemático (método científico)
+    @refatorador           Refatora sem mudar comportamento
+    @security-auditor      Audit: SQLi, XSS, credenciais, path traversal
+    @otimizador            Performance: algoritmos, queries, I/O
+
+  AGENT 2 (Conhecimento) — gpt-oss-120b:free
+
+    @orquestrador-conhecimento   Líder — delega conhecimento
+    @pesquisador                  Pesquisa técnica, APIs, bibliotecas
+    @documentador                 Documentação técnica com exemplos
+    @arquiteto                    Arquitetura: trade-offs, decisões
+    @devops                       CI/CD, Docker, infra, monitoramento
+
+─── SKILLS INSTALADAS (161 = 154 + 7 sintetizadas) ───────────────
+
+  CATEGORIA             QUANT  DESTAQUE
+  ─────────────────────────────────────────────────────────────
+  OH-MY-OPENAGENT         13  work-with-pr, opencode-qa, publish, hyperplan
+  AURORA (design)         35  accessibility-audit, component-library, palette,
+                              motion-foundations, design-brief, excalidraw
+  HEFESTO (engenharia)    49  api-design, systematic-debugging, tdd,
+                              security-review, architecture-patterns
+  TASTE-SKILL             13  taste-skill, brandkit, redesign-skill,
+                              minimalist-skill, output-skill
+  SKILLS REFINADAS        22  multi-agent-orchestration, system-design,
+                              capability-architect, delegated-development
+  UNIVERSAIS              12  anti-glaze, council, critical-thinking,
+                              karpathy-discipline, impeccable
+  SKILLS SINTETIZADAS      7  kiro-engineering-process, kiro-design-process,
+                              kiro-steering-governance, nexus-orchestration,
+                              think-max-protocol, adr-architecture-decision,
+                              model-router-fallback
+  MASTER-ORQUESTRADOR      1  orquestração completa do sistema
+  OUTRAS                  10  duckduckgo-search, tavily-search, web-fetch,
+                              web-scrape, gif-search, ocr, dogfood, etc.
+  ─────────────────────────────────────────────────────────────
+  TOTAL                  161  (.opencode/skills/ — 161 diretórios SKILL.md)
+
+  FONTES DAS SKILLS SINTETIZADAS:
+    kiro-engineering-process  ← .kiro/steering/02-processo-engenharia.md (Hefesto)
+    kiro-design-process       ← .kiro/steering/03-processo-design.md (Aurora)
+    kiro-steering-governance  ← .kiro/steering/00-identidade-principal.md
+    nexus-orchestration       ← ULTRA_PROMPT_ANTIGRAVITY/CORE_ANTIGRAVITY.md (Nexus)
+    think-max-protocol        ← ULTRA_PROMPT_ANTIGRAVITY/SKILLS_CLAUDE/think-max-protocol.md
+    adr-architecture-decision ← ULTRA_PROMPT_ANTIGRAVITY/SKILLS_CLAUDE/architecture-decision.md
+    model-router-fallback     ← ULTRA_PROMPT_ANTIGRAVITY/MODULOS_ULTRA_PROMPT/modules_modelo_supremo.md
+
+─── ESTRUTURA DE DIRETÓRIOS ──────────────────────────────────────
+
+multi-agent/
+├── agent1-north/
+│   ├── opencode.json       # Agent 1 config (port 3001, 7 agentes)
+│   ├── server.log          # Servidor log (stdout/stderr)
+│   └── server.err
+├── agent2-gptoss/
+│   ├── opencode.json       # Agent 2 config (port 3002, 5 agentes)
+│   ├── server.log
+│   └── server.err
+├── .opencode/
+│   └── skills/             # 154 diretórios, cada um com SKILL.md
+│       ├── master-orquestrador/   # SKILL mestre do sistema
+│       ├── api-design/
+│       ├── tdd/
+│       └── ... (154 total)
+├── .omo/
+│   └── rules/
+│       └── always-use-agents.md   # alwaysApply: true
+├── INSTRUCAO_OPENCODE.md    # Instrução detalhada (este doc)
+├── agentes-info.txt         # Este arquivo
+├── status-agents.ps1        # Script de status dos servidores
+├── start-agents.ps1         # Script de inicialização
+├── stop-agents.ps1          # Script de parada
+└── delegar.ps1              # Script de delegação de tarefa
+
+─── COMANDOS RÁPIDOS ─────────────────────────────────────────────
+
+  .\status-agents.ps1                    → Status dos servidores
+  .\delegar.ps1 <agente> "<tarefa>"      → Delegar tarefa
+  .\stop-agents.ps1                      → Parar servidores
+  .\start-agents.ps1                     → Iniciar servidores
+
+  opencode --dir .\agent1-north          → Abrir TUI no Agent 1
+  opencode --dir .\agent2-gptoss         → Abrir TUI no Agent 2
+
+─── SKILLS MAIS IMPORTANTES POR TIPO DE TAREFA ───────────────────
+
+  TAREFA                            SKILL PARA CARREGAR
+  ───────────────────────────────────────────────────────────────
+  Implementar API REST               skill:api-design
+  Criar testes                       skill:test-driven-development
+  Debuggar bug                       skill:systematic-debugging
+  Revisar segurança                  skill:security-review
+  Otimizar performance               skill:property-based-testing
+  Desenhar arquitetura               skill:system-design
+  Pesquisar tecnologia               skill:factual-verify
+  Criar documentação                 skill:doc-read + skill:doc-cache
+  Design de interface                skill:design-brief + skill:palette
+  Orquestrar agentes                 skill:multi-agent-orchestration
+  Garantir qualidade                 skill:critical-thinking + skill:council
+  Evitar design genérico             skill:taste-skill
+  Planejar tarefa                    skill:plan + skill:writing-plans
+  Revisar código                     skill:code-review + skill:code-review-checklist
+  Análise ultra-profunda             skill:think-max-protocol
+  Decisão arquitetural               skill:adr-architecture-decision
+  Processo de engenharia completo    skill:kiro-engineering-process
+  Processo de design completo        skill:kiro-design-process
+  Orquestração avançada              skill:nexus-orchestration
+  Roteamento de modelo ideal         skill:model-router-fallback
+  Governança de workspace            skill:kiro-steering-governance
