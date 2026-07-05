@@ -1,4 +1,5 @@
 ---
+name: master-orquestrador
 description: "SKILL MESTRE — Orquestração do Sistema Multi-Agente OpenCode com 153 Super-Poderes"
 mode: "primary"
 ---

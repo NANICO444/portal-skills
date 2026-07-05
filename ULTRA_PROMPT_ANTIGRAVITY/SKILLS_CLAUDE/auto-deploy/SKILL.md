@@ -1,3 +1,8 @@
+---
+name: auto-deploy
+description: "Skill de deploy automatico completo para publicar projetos (sites estaticos, React/Next.js, Python .exe, etc.) no GitHub Pages, Vercel ou Releases. Use quando precisar publicar ou fazer deploy de qualquer projeto na internet."
+---
+
 # SKILL: Deploy Automático Completo
 # Use esta skill quando precisar publicar qualquer projeto na internet
 

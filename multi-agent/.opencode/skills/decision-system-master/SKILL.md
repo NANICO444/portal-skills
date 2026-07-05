@@ -1,4 +1,5 @@
 ---
+name: decision-system-master-2
 description: "Skill mestre carregada automaticamente em todo sistema. Orquestra decisoes."
 mode: primary
 user-invocable: false

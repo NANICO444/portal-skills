@@ -1,3 +1,8 @@
+---
+name: orchestration
+description: "Orquestracao de agentes e tarefas em fluxos multi-step: roteamento, paralelizacao, decisao entre especialistas, e coordenacao de subagentes. Use quando precisar coordenar multiplos agentes ou etapas complexas."
+---
+
 # SKILL: Orquestração Avançada de Sub-Agentes
 # Use esta skill quando precisar dividir uma tarefa grande em sub-tarefas paralelas
 

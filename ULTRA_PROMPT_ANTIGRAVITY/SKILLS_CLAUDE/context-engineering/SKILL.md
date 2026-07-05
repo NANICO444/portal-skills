@@ -1,3 +1,8 @@
+---
+name: context-engineering
+description: "Engenharia de contexto para LLMs: otimizacao de prompts, janela de contexto, recuperacao (RAG), compressao e gestao eficiente de informacao em sessoes longas. Use em projetos com grandes codebases ou muitas dependencias."
+---
+
 # SKILL: Context Engineering (Engenharia de Contexto)
 # A técnica mais avançada de 2026 para maximizar a inteligência da IA
 

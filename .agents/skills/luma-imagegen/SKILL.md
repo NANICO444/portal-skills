@@ -1,5 +1,5 @@
 ---
-name: "luma-imagegen"
+name: luma-imagegen
 description: "Use when the user asks to generate images via the Luma AI API (Dream Machine / Photon); collects a prompt and options interactively, then calls the API using the bundled script. Requires LUMA_API_KEY — will prompt the user if missing."
 author: lumalabs
 ---

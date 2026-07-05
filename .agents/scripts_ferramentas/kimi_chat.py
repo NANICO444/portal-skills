@@ -4,7 +4,7 @@ import requests
 import json
 
 # Defina sua chave aqui ou use a variável de ambiente OPENROUTER_API_KEY
-OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "SUA_CHAVE_AQUI")
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY", "")
 
 def chat_com_kimi(mensagem):
     print("Enviando mensagem para o Kimi...")

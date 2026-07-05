@@ -6,7 +6,7 @@ import sys
 import time
 
 def delegar_para_ia(prompt, file_path=None, output_path=None, modelo_primario=None):
-    api_key = os.environ.get("OPENROUTER_API_KEY", "SUA_CHAVE_AQUI")
+    api_key = os.environ.get("OPENROUTER_API_KEY", "")
     
     conteudo_arquivo = ""
     if file_path:

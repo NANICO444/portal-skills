@@ -1,5 +1,5 @@
 // kimi_chat.js
-const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "SUA_CHAVE_AQUI";
+const OPENROUTER_API_KEY = process.env.OPENROUTER_API_KEY || "";
 
 async function chatComKimi(mensagem) {
   console.log("Enviando mensagem para o Kimi...");
